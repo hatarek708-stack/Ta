@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON - Thrifted Culture | Premium Thrifted Fashion</title>
+    <meta name="description" content="Premium thrifted pieces. Handpicked for quality. Priced for you.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-black: #000000;
+            --color-white: #ffffff;
+            --color-gray-50: #f9fafb;
+            --color-gray-100: #f3f4f6;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --color-gray-400: #9ca3af;
+            --color-gray-500: #6b7280;
+            --color-gray-600: #4b5563;
+            --color-gray-700: #374151;
+            --color-gray-800: #1f2937;
+            --color-gray-900: #111827;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: 16px;
+            line-height: 1.5;
+            color: var(--color-gray-900);
+            background-color: var(--color-white);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .container { padding: 0 1.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .container { padding: 0 2rem; }
+        }
+
+        /* ===== TOP BANNER ===== */
+        .top-banner {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            text-align: center;
+            padding: 0.625rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background-color: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        @media (min-width: 768px) {
+            .header-container { height: 80px; }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
+        }
+
+        @media (min-width: 768px) {
+            .logo { font-size: 1.875rem; }
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: none;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .nav-menu { display: flex; }
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--color-gray-900);
+        }
+
+        /* Header Icons */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (min-width: 640px) {
+            .header-icons { gap: 1.25rem; }
+        }
+
+        .icon-btn {
+            padding: 0.5rem;
+            border-radius: 9999px;
+            color: var(--color-gray-700);
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        .cart-btn {
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            font-size: 0.75rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: block;
+            padding: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-menu-btn { display: none; }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 0;
+            min-height: 600px;
+        }
+
+        @media (min-width: 768px) {
+            .hero { 
+                padding: 5rem 0; 
+                min-height: 700px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero { 
+                padding: 6rem 0; 
+                min-height: 650px;
+            }
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .hero-grid { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 3rem;
+                align-items: center;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-grid { gap: 4rem; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-gray-300);
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-badge { font-size: 1rem; }
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title { font-size: 3.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-title { font-size: 4rem; }
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--color-gray-400);
+            max-width: 28rem;
+            line-height: 1.625;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-subtitle { font-size: 1.125rem; }
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding: 0.875rem 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            .hero-image-wrapper { 
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .hero-image-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            border-radius: 0.5rem;
+            overflow: visible;
+            filter: drop-shadow(-20px 20px 40px rgba(0, 0, 0, 0.6));
+        }
+
+        @media (min-width: 480px) {
+            .hero-image-container { max-width: 380px; }
+        }
+
+        @media (min-width: 768px) {
+            .hero-image-container { max-width: 420px; }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-image-container { max-width: 500px; }
+        }
+
+        .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0.5rem;
+        }
+
+        /* Mobile: Hide image or make it smaller and positioned better */
+        @media (max-width: 767px) {
+            .hero-image-wrapper {
+                order: -1;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-image-container {
+                max-width: 260px;
+                filter: drop-shadow(-10px 10px 30px rgba(0, 0, 0, 0.5));
+            }
+        }
+
+        /* ===== FEATURES BAR ===== */
+        .features-bar {
+            background-color: var(--color-white);
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        @media (min-width: 768px) {
+            .features-bar { padding: 3rem 0; }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .features-grid { grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        @media (min-width: 768px) {
+            .feature-item { gap: 1rem; }
+        }
+
+        .feature-icon {
+            flex-shrink: 0;
+            padding: 0.625rem;
+            background-color: var(--color-gray-50);
+            border-radius: 0.5rem;
+            color: var(--color-gray-800);
+        }
+
+        .feature-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-desc {
+            font-size: 0.75rem;
+            color: var(--color-gray-500);
+        }
+
+        /* ===== SHOP BY CATEGORY ===== */
+        .category-section {
+            background-color: var(--color-white);
+            padding: 3.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .category-section { padding: 5rem 0; }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        @media (min-width: 768px) {
+            .section-title { font-size: 1.875rem; margin-bottom: 3.5rem; }
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .categories-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .categories-grid { grid-template-columns: repeat(5, 1fr); gap: 1.5rem; }
+        }
+
+        .category-card {
+            cursor: pointer;
+            group: true;
+        }
+
+        .category-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            aspect-ratio: 3/4;
+            background-color: var(--color-gray-100);
+            margin-bottom: 1rem;
+        }
+
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover .category-image {
+            transform: scale(1.05);
+        }
+
+        .category-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent, transparent);
+        }
+
+        .category-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .category-name {
+            color: var(--color-white);
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-category {
+            display: inline-block;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.5rem 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: var(--transition);
+        }
+
+        .btn-category:hover {
+            background-color: var(--color-gray-100);
+        }
+
+        /* ===== TRENDING NOW ===== */
+        .trending-section {
+            background-color: var(--color-gray-50);
+            padding: 3.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .trending-section { padding: 5rem 0; }
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(6, 1fr); gap: 1.5rem; }
+        }
+
+        .product-card {
+            group: true;
+        }
+
+        .product-image-wrapper {
+            background-color: var(--color-white);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .product-card:hover .product-image-wrapper {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image-box {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            background-color: var(--color-gray-100);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-gray-900);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-top: 0.25rem;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.625rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn-add-cart:hover {
+            background-color: var(--color-gray-800);
+        }
+
+        /* Pagination Dots */
+        .pagination-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background-color: var(--color-gray-300);
+        }
+
+        .dot.active {
+            background-color: var(--color-black);
+        }
+
+        /* ===== PROMO BANNERS ===== */
+        .promo-section {
+            background-color: var(--color-white);
+            padding: 3.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .promo-section { padding: 5rem 0; }
+        }
+
+        .promo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .promo-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        }
+
+        .promo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            background-color: var(--color-black);
+            min-height: 320px;
+            cursor: pointer;
+        }
+
+        .promo-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.6;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .promo-card:hover .promo-bg {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        .promo-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .promo-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4), transparent);
+        }
+
+        .promo-content {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .promo-content { padding: 2rem; }
+        }
+
+        .promo-title {
+            color: var(--color-white);
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .promo-title { font-size: 1.5rem; }
+        }
+
+        .promo-subtitle {
+            color: var(--color-gray-300);
+            font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-promo {
+            display: inline-block;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.625rem 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: var(--transition);
+            width: fit-content;
+        }
+
+        .btn-promo:hover {
+            background-color: var(--color-gray-200);
+        }
+
+        /* ===== INSTAGRAM SECTION ===== */
+        .instagram-section {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 3.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .instagram-section { padding: 5rem 0; }
+        }
+
+        .instagram-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .instagram-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @media (min-width: 768px) {
+            .instagram-title { font-size: 1.25rem; }
+        }
+
+        .instagram-handle {
+            color: var(--color-gray-400);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .instagram-nav-btn {
+            padding: 0.5rem;
+            border-radius: 9999px;
+            color: var(--color-white);
+            transition: var(--transition);
+        }
+
+        .instagram-nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .instagram-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .instagram-grid { grid-template-columns: repeat(8, 1fr); gap: 0.75rem; }
+        }
+
+        .instagram-item {
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .instagram-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .instagram-item:hover .instagram-img {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding-top: 3.5rem;
+            padding-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer { padding-top: 3.5rem; }
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; }
+        }
+
+        .footer-brand {
+            padding-right: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .footer-brand { padding-right: 2rem; }
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .footer-desc {
+            color: var(--color-gray-400);
+            font-size: 0.875rem;
+            line-height: 1.625;
+            max-width: 22rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .social-link {
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            color: var(--color-white);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-column-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-link {
+            color: var(--color-gray-400);
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .footer-link:hover {
+            color: var(--color-white);
+        }
+
+        .newsletter-text {
+            color: var(--color-gray-400);
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--color-white);
+            font-size: 0.875rem;
+            padding: 0.625rem 1rem;
+            border-radius: 0.375rem 0 0 0.375rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--color-gray-500);
+        }
+
+        .newsletter-input:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .newsletter-btn {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding: 0.625rem 1rem;
+            border-radius: 0 0.375rem 0.375rem 0;
+            transition: var(--transition);
+        }
+
+        .newsletter-btn:hover {
+            background-color: var(--color-gray-200);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+        }
+
+        .copyright-text {
+            color: var(--color-gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* ===== MOBILE NAVIGATION OVERLAY ===== */
+        .mobile-nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background-color: var(--color-white);
+            z-index: 100;
+            padding: 1.5rem;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .mobile-nav-close {
+            padding: 0.5rem;
+            color: var(--color-gray-700);
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            border-radius: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .mobile-nav-link:hover {
+            background-color: var(--color-gray-100);
+            color: var(--color-black);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        FREE SHIPPING ON ALL ORDERS ABOVE ₹1499
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="#" class="logo">NEON</a>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="#" class="nav-link">Shop</a>
+                <a href="#" class="nav-link">Collections</a>
+                <a href="#" class="nav-link">About Us</a>
+                <a href="#" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-icons">
+                <button class="icon-btn" aria-label="Search">
+                    <i data-lucide="search" style="width: 20px; height: 20px;"></i>
+                </button>
+                <button class="icon-btn" aria-label="Account" style="display: none;" id="accountBtnDesktop">
+                    <i data-lucide="user" style="width: 20px; height: 20px;"></i>
+                </button>
+                <button class="icon-btn cart-btn" aria-label="Cart">
+                    <i data-lucide="shopping-bag" style="width: 20px; height: 20px;"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="mobile-menu-btn" aria-label="Menu" id="mobileMenuBtn">
+                    <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <span class="logo">NEON</span>
+            <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+                <i data-lucide="x" style="width: 24px; height: 24px;"></i>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#" class="mobile-nav-link">Home</a>
+            <a href="#" class="mobile-nav-link">Shop</a>
+            <a href="#" class="mobile-nav-link">Collections</a>
+            <a href="#" class="mobile-nav-link">About Us</a>
+            <a href="#" class="mobile-nav-link">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <p class="hero-badge">New Arrivals</p>
+                    <h1 class="hero-title">THRIFTED.<br>CURATED.</h1>
+                    <p class="hero-subtitle">Premium thrifted pieces. Handpicked for quality. Priced for you.</p>
+                    <a href="#" class="btn-primary">Shop Now</a>
+                </div>
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-container">
+                        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&h=750&fit=crop&crop=top" alt="NEON Thrifted Culture Model" class="hero-image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Bar -->
+        <section class="features-bar">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="truck" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="feature-title">Free Shipping</h3>
+                            <p class="feature-desc">On all orders above ₹1499</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="shield-check" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="feature-title">Premium Quality</h3>
+                            <p class="feature-desc">Handpicked & quality checked</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="rotate-ccw" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="feature-title">Easy Returns</h3>
+                            <p class="feature-desc">Hassle free returns</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i data-lucide="headphones" style="width: 24px; height: 24px;"></i>
+                        </div>
+                        <div>
+                            <h3 class="feature-title">24/7 Support</h3>
+                            <p class="feature-desc">We're here to help</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop by Category -->
+        <section class="category-section">
+            <div class="container">
+                <h2 class="section-title">SHOP BY CATEGORY</h2>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=400&h=500&fit=crop" alt="Hoodies Collection" class="category-image">
+                            <div class="category-gradient"></div>
+                            <div class="category-content">
+                                <h3 class="category-name">Hoodies</h3>
+                                <span class="btn-category">Shop Now</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop" alt="T-Shirts Collection" class="category-image">
+                            <div class="category-gradient"></div>
+                            <div class="category-content">
+                                <h3 class="category-name">T-Shirts</h3>
+                                <span class="btn-category">Shop Now</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=500&fit=crop" alt="Pants Collection" class="category-image">
+                            <div class="category-gradient"></div>
+                            <div class="category-content">
+                                <h3 class="category-name">Pants</h3>
+                                <span class="btn-category">Shop Now</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=500&fit=crop" alt="Neon Jackets Collection" class="category-image">
+                            <div class="category-gradient"></div>
+                            <div class="category-content">
+                                <h3 class="category-name">Neon<br>Jackets</h3>
+                                <span class="btn-category">Shop Now</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=500&fit=crop" alt="Accessories Collection" class="category-image">
+                            <div class="category-gradient"></div>
+                            <div class="category-content">
+                                <h3 class="category-name">Neon<br>Accessories</h3>
+                                <span class="btn-category">Shop Now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Now -->
+        <section class="trending-section">
+            <div class="container">
+                <h2 class="section-title">TRENDING NOW</h2>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=350&h=350&fit=crop" alt="Dark Dreams Hoodie" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Dark Dreams Hoodie</h3>
+                        <p class="product-price">₹1,699</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=350&h=350&fit=crop" alt="Chaos Club Tee" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Chaos Club Tee</h3>
+                        <p class="product-price">₹899</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=350&h=350&fit=crop" alt="Vintage Washed Tee" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Vintage Washed Tee</h3>
+                        <p class="product-price">₹949</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=350&h=350&fit=crop" alt="Utility Cargo Pants" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Utility Cargo Pants</h3>
+                        <p class="product-price">₹1,599</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=350&h=350&fit=crop" alt="Neon Oversized Tee" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Neon Oversized Tee</h3>
+                        <p class="product-price">₹999</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <div class="product-image-box">
+                                <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=350&h=350&fit=crop&sat=-100" alt="Essential Hoodie" class="product-image">
+                            </div>
+                        </div>
+                        <h3 class="product-name">Essential Hoodie</h3>
+                        <p class="product-price">₹1,499</p>
+                        <button class="btn-add-cart">Add to Cart</button>
+                    </div>
+                </div>
+                
+                <!-- Pagination Dots -->
+                <div class="pagination-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promotional Banners -->
+        <section class="promo-section">
+            <div class="container">
+                <div class="promo-grid">
+                    <div class="promo-card">
+                        <div class="promo-bg">
+                            <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&h=400&fit=crop" alt="New Drops Every Week" class="promo-image">
+                        </div>
+                        <div class="promo-gradient"></div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">New Drops</h3>
+                            <p class="promo-subtitle">Every Week</p>
+                            <span class="btn-promo">Explore</span>
+                        </div>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-bg">
+                            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop" alt="Premium Thrift Handpicked Pieces" class="promo-image">
+                        </div>
+                        <div class="promo-gradient"></div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Premium Thrift</h3>
+                            <p class="promo-subtitle">Handpicked Pieces</p>
+                            <span class="btn-promo">Explore</span>
+                        </div>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-bg">
+                            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=400&fit=crop" alt="Up to 50% Off Limited Time Only" class="promo-image">
+                        </div>
+                        <div class="promo-gradient"></div>
+                        <div class="promo-content">
+                            <h3 class="promo-title">Up to 50% Off</h3>
+                            <p class="promo-subtitle">Limited Time Only</p>
+                            <span class="btn-promo">Shop Sale</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instagram Section -->
+        <section class="instagram-section">
+            <div class="container">
+                <div class="instagram-header">
+                    <div>
+                        <h2 class="instagram-title">Follow Us on Instagram</h2>
+                        <p class="instagram-handle">@neon.thrift</p>
+                    </div>
+                    <button class="instagram-nav-btn" aria-label="Next">
+                        <i data-lucide="arrow-right" style="width: 24px; height: 24px;"></i>
+                    </button>
+                </div>
+                <div class="instagram-grid">
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop" alt="Instagram post 1" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&sat=-20" alt="Instagram post 2" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&sat=-40" alt="Instagram post 3" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&sat=-60" alt="Instagram post 4" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&hue=30" alt="Instagram post 5" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&hue=60" alt="Instagram post 6" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&hue=90" alt="Instagram post 7" class="instagram-img">
+                    </div>
+                    <div class="instagram-item">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop&hue=120" alt="Instagram post 8" class="instagram-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <h2 class="footer-logo">NEON</h2>
+                    <p class="footer-desc">Thrifted culture. Curated style. Pieces with a past, made for the present.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i data-lucide="instagram" style="width: 16px; height: 16px;"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="TikTok">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <i data-lucide="message-circle" style="width: 16px; height: 16px;"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Shop Column -->
+                <div>
+                    <h3 class="footer-column-title">Shop</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">All Products</a></li>
+                        <li><a href="#" class="footer-link">Hoodies</a></li>
+                        <li><a href="#" class="footer-link">T-Shirts</a></li>
+                        <li><a href="#" class="footer-link">Pants</a></li>
+                        <li><a href="#" class="footer-link">Accessories</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Column -->
+                <div>
+                    <h3 class="footer-column-title">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Contact Us</a></li>
+                        <li><a href="#" class="footer-link">Shipping & Delivery</a></li>
+                        <li><a href="#" class="footer-link">Returns & Refunds</a></li>
+                        <li><a href="#" class="footer-link">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Help & Newsletter Column -->
+                <div>
+                    <h3 class="footer-column-title">Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">FAQs</a></li>
+                        <li><a href="#" class="footer-link">Track Your Order</a></li>
+                        <li><a href="#" class="footer-link">Size Guide</a></li>
+                        <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+                    </ul>
+                    
+                    <h3 class="footer-column-title" style="margin-top: 2rem;">Newsletter</h3>
+                    <p class="newsletter-text">Get exclusive updates on new drops and special offers.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+                        <input type="email" placeholder="Enter your email" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">
+                            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <p class="copyright-text">&copy; 2024 Neon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNavClose = document.getElementById('mobileNavClose');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavOverlay = document.getElementById('mobileNavOverlay');
+
+        function openMobileNav() {
+            mobileNav.classList.add('active');
+            mobileNavOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileNav() {
+            mobileNav.classList.remove('active');
+            mobileNavOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', openMobileNav);
+        }
+
+        if (mobileNavClose) {
+            mobileNavClose.addEventListener('click', closeMobileNav);
+        }
+
+        if (mobileNavOverlay) {
+            mobileNavOverlay.addEventListener('click', closeMobileNav);
+        }
+
+        // Show account button on desktop
+        const accountBtnDesktop = document.getElementById('accountBtnDesktop');
+        if (window.innerWidth >= 640 && accountBtnDesktop) {
+            accountBtnDesktop.style.display = 'block';
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 640 && accountBtnDesktop) {
+                accountBtnDesktop.style.display = 'block';
+            } else if (accountBtnDesktop) {
+                accountBtnDesktop.style.display = 'none';
+            }
+        });
+
+        // Add to Cart Animation
+        const addToCartButtons = document.querySelectorAll('.btn-add-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = 'Added!';
+                this.style.backgroundColor = '#16a34a';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.backgroundColor = '';
+                }, 1500);
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
