@@ -1041,15 +1041,15 @@
             <a href="#" class="logo">NEON</a>
 
             <nav class="nav-menu">
-                <a href="#" class="nav-link active">Home</a>
-                <a href="#" class="nav-link">Shop</a>
-                <a href="#" class="nav-link">Collections</a>
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="categories.html" class="nav-link">Shop</a>
+                <a href="categories.html" class="nav-link">Collections</a>
                 <a href="#" class="nav-link">About Us</a>
                 <a href="#" class="nav-link">Contact</a>
             </nav>
 
             <div class="header-icons">
-                <button class="icon-btn" aria-label="Search">
+                <button class="icon-btn" aria-label="Search" onclick="window.location.href='search.html'">
                     <i data-lucide="search" style="width: 20px; height: 20px;"></i>
                 </button>
                 <button class="icon-btn" aria-label="Account" style="display: none;" id="accountBtnDesktop">
@@ -1078,9 +1078,10 @@
             </button>
         </div>
         <div class="mobile-nav-links">
-            <a href="#" class="mobile-nav-link">Home</a>
-            <a href="#" class="mobile-nav-link">Shop</a>
-            <a href="#" class="mobile-nav-link">Collections</a>
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="categories.html" class="mobile-nav-link">Shop</a>
+            <a href="categories.html" class="mobile-nav-link">Collections</a>
+            <a href="search.html" class="mobile-nav-link">Search</a>
             <a href="#" class="mobile-nav-link">About Us</a>
             <a href="#" class="mobile-nav-link">Contact</a>
         </div>
@@ -1095,7 +1096,7 @@
                     <p class="hero-badge">New Arrivals</p>
                     <h1 class="hero-title">THRIFTED.<br>CURATED.</h1>
                     <p class="hero-subtitle">Premium thrifted pieces. Handpicked for quality. Priced for you.</p>
-                    <a href="#" class="btn-primary">Shop Now</a>
+                    <a href="categories.html" class="btn-primary">Shop Now</a>
                 </div>
                 <div class="hero-image-wrapper">
                     <div class="hero-image-container">
@@ -1153,57 +1154,8 @@
         <section class="category-section">
             <div class="container">
                 <h2 class="section-title">SHOP BY CATEGORY</h2>
-                <div class="categories-grid">
-                    <div class="category-card">
-                        <div class="category-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=400&h=500&fit=crop" alt="Hoodies Collection" class="category-image">
-                            <div class="category-gradient"></div>
-                            <div class="category-content">
-                                <h3 class="category-name">Hoodies</h3>
-                                <span class="btn-category">Shop Now</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=500&fit=crop" alt="T-Shirts Collection" class="category-image">
-                            <div class="category-gradient"></div>
-                            <div class="category-content">
-                                <h3 class="category-name">T-Shirts</h3>
-                                <span class="btn-category">Shop Now</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=400&h=500&fit=crop" alt="Pants Collection" class="category-image">
-                            <div class="category-gradient"></div>
-                            <div class="category-content">
-                                <h3 class="category-name">Pants</h3>
-                                <span class="btn-category">Shop Now</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&h=500&fit=crop" alt="Neon Jackets Collection" class="category-image">
-                            <div class="category-gradient"></div>
-                            <div class="category-content">
-                                <h3 class="category-name">Neon<br>Jackets</h3>
-                                <span class="btn-category">Shop Now</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="category-card">
-                        <div class="category-image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&h=500&fit=crop" alt="Accessories Collection" class="category-image">
-                            <div class="category-gradient"></div>
-                            <div class="category-content">
-                                <h3 class="category-name">Neon<br>Accessories</h3>
-                                <span class="btn-category">Shop Now</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="categories-grid" id="homeCategoriesGrid">
+                    <!-- Filled by data.js -->
                 </div>
             </div>
         </section>
@@ -1212,67 +1164,8 @@
         <section class="trending-section">
             <div class="container">
                 <h2 class="section-title">TRENDING NOW</h2>
-                <div class="products-grid">
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=350&h=350&fit=crop" alt="Dark Dreams Hoodie" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Dark Dreams Hoodie</h3>
-                        <p class="product-price">₹1,699</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=350&h=350&fit=crop" alt="Chaos Club Tee" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Chaos Club Tee</h3>
-                        <p class="product-price">₹899</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=350&h=350&fit=crop" alt="Vintage Washed Tee" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Vintage Washed Tee</h3>
-                        <p class="product-price">₹949</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=350&h=350&fit=crop" alt="Utility Cargo Pants" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Utility Cargo Pants</h3>
-                        <p class="product-price">₹1,599</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=350&h=350&fit=crop" alt="Neon Oversized Tee" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Neon Oversized Tee</h3>
-                        <p class="product-price">₹999</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image-wrapper">
-                            <div class="product-image-box">
-                                <img src="https://images.unsplash.com/photo-1556821840-0a63f95cbfae?w=350&h=350&fit=crop&sat=-100" alt="Essential Hoodie" class="product-image">
-                            </div>
-                        </div>
-                        <h3 class="product-name">Essential Hoodie</h3>
-                        <p class="product-price">₹1,499</p>
-                        <button class="btn-add-cart">Add to Cart</button>
-                    </div>
+                <div class="products-grid" id="homeProductsGrid">
+                    <!-- Filled by data.js -->
                 </div>
                 
                 <!-- Pagination Dots -->
@@ -1442,10 +1335,51 @@
         </div>
     </footer>
 
+    <!-- Shared data -->
+    <script src="data.js"></script>
+
     <!-- JavaScript -->
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
+
+        /* ===== Render categories from shared data ===== */
+        (function renderHomeCategories() {
+            const grid = document.getElementById('homeCategoriesGrid');
+            if (!grid || !window.NEON_DATA) return;
+            grid.innerHTML = NEON_DATA.categories.map(cat => `
+                <a href="categories.html?cat=${cat.id}" class="category-card">
+                    <div class="category-image-wrapper">
+                        <img src="${cat.image}" alt="${cat.name} Collection" class="category-image">
+                        <div class="category-gradient"></div>
+                        <div class="category-content">
+                            <h3 class="category-name">${cat.name}</h3>
+                            <span class="btn-category">Shop Now</span>
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        })();
+
+        /* ===== Render products from shared data ===== */
+        (function renderHomeProducts() {
+            const grid = document.getElementById('homeProductsGrid');
+            if (!grid || !window.NEON_DATA) return;
+            grid.innerHTML = NEON_DATA.products.map(p => `
+                <div class="product-card">
+                    <a href="product.html?id=${p.id}" class="product-image-wrapper" style="display:block;color:inherit;">
+                        <div class="product-image-box">
+                            <img src="${p.images[0]}" alt="${p.name}" class="product-image">
+                        </div>
+                    </a>
+                    <a href="product.html?id=${p.id}" style="color:inherit;">
+                        <h3 class="product-name">${p.name}</h3>
+                    </a>
+                    <p class="product-price">${NEON_DATA.formatPrice(p.price)}</p>
+                    <button class="btn-add-cart" data-product-id="${p.id}">Add to Cart</button>
+                </div>
+            `).join('');
+        })();
 
         // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
