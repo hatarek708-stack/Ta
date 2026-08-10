@@ -6,6 +6,11 @@
     <title>NEON - Thrifted Culture | Premium Thrifted Fashion</title>
     <meta name="description" content="Premium thrifted pieces. Handpicked for quality. Priced for you.">
 
+    <!-- Prevent caching of old version -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -807,20 +812,20 @@
     <!-- Header (shared) -->
     <header class="header">
         <div class="container header-container">
-            <a class="logo" data-nav="home">NEON</a>
+            <a class="logo" data-nav="home" href="index.html">NEON</a>
 
             <nav class="nav-menu">
-                <button class="nav-link" data-nav="home">Home</button>
-                <button class="nav-link" data-nav="categories">Shop</button>
-                <button class="nav-link" data-nav="categories">Collections</button>
-                <button class="nav-link" data-nav="about">About Us</button>
-                <button class="nav-link" data-nav="contact">Contact</button>
+                <a class="nav-link" data-nav="home" href="index.html">Home</a>
+                <a class="nav-link" data-nav="categories" href="index.html?page=categories">Shop</a>
+                <a class="nav-link" data-nav="categories" href="index.html?page=categories">Collections</a>
+                <a class="nav-link" data-nav="about" href="index.html?page=about">About Us</a>
+                <a class="nav-link" data-nav="contact" href="index.html?page=contact">Contact</a>
             </nav>
 
             <div class="header-icons">
-                <button class="icon-btn" aria-label="Search" data-nav="search">
+                <a class="icon-btn" aria-label="Search" data-nav="search" href="index.html?page=search">
                     <i data-lucide="search" style="width: 20px; height: 20px;"></i>
-                </button>
+                </a>
                 <button class="icon-btn cart-btn" aria-label="Cart" id="cartBtn">
                     <i data-lucide="shopping-bag" style="width: 20px; height: 20px;"></i>
                     <span class="cart-count" id="cartCount">0</span>
@@ -842,12 +847,12 @@
             </button>
         </div>
         <div class="mobile-nav-links">
-            <a class="mobile-nav-link" data-nav="home">Home</a>
-            <a class="mobile-nav-link" data-nav="categories">Shop</a>
-            <a class="mobile-nav-link" data-nav="categories">Collections</a>
-            <a class="mobile-nav-link" data-nav="search">Search</a>
-            <a class="mobile-nav-link" data-nav="about">About Us</a>
-            <a class="mobile-nav-link" data-nav="contact">Contact</a>
+            <a class="mobile-nav-link" data-nav="home" href="index.html">Home</a>
+            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories">Shop</a>
+            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories">Collections</a>
+            <a class="mobile-nav-link" data-nav="search" href="index.html?page=search">Search</a>
+            <a class="mobile-nav-link" data-nav="about" href="index.html?page=about">About Us</a>
+            <a class="mobile-nav-link" data-nav="contact" href="index.html?page=contact">Contact</a>
         </div>
     </div>
 
@@ -863,7 +868,7 @@
                         <p class="hero-badge">New Arrivals</p>
                         <h1 class="hero-title">THRIFTED.<br>CURATED.</h1>
                         <p class="hero-subtitle">Premium thrifted pieces. Handpicked for quality. Priced for you.</p>
-                        <button class="btn-primary" data-nav="categories">Shop Now</button>
+                        <a class="btn-primary" data-nav="categories" href="index.html?page=categories">Shop Now</a>
                     </div>
                     <div class="hero-image-wrapper">
                         <div class="hero-image-container">
@@ -920,7 +925,7 @@
             <section class="promo-section">
                 <div class="container">
                     <div class="promo-grid">
-                        <div class="promo-card" data-nav="categories">
+                        <a class="promo-card" data-nav="categories" href="index.html?page=categories">
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&h=400&fit=crop" alt="New Drops" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
@@ -928,8 +933,8 @@
                                 <p class="promo-subtitle">Every Week</p>
                                 <span class="btn-promo">Explore</span>
                             </div>
-                        </div>
-                        <div class="promo-card" data-nav="categories">
+                        </a>
+                        <a class="promo-card" data-nav="categories" href="index.html?page=categories">
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop" alt="Premium Thrift" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
@@ -937,8 +942,8 @@
                                 <p class="promo-subtitle">Handpicked Pieces</p>
                                 <span class="btn-promo">Explore</span>
                             </div>
-                        </div>
-                        <div class="promo-card" data-nav="categories">
+                        </a>
+                        <a class="promo-card" data-nav="categories" href="index.html?page=categories">
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=400&fit=crop" alt="Up to 50% Off" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
@@ -946,7 +951,7 @@
                                 <p class="promo-subtitle">Limited Time Only</p>
                                 <span class="btn-promo">Shop Sale</span>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -983,9 +988,9 @@
         <section id="page-product" class="page">
             <div class="breadcrumb">
                 <div class="container">
-                    <a data-nav="home">Home</a>
+                    <a data-nav="home" href="index.html">Home</a>
                     <span class="sep">/</span>
-                    <a data-nav="categories">Shop</a>
+                    <a data-nav="categories" href="index.html?page=categories">Shop</a>
                     <span class="sep">/</span>
                     <a id="crumbCategory">Category</a>
                     <span class="sep">/</span>
@@ -1026,7 +1031,7 @@
                 <div class="container">
                     <div class="section-head">
                         <h2>You May Also Like</h2>
-                        <span class="view-all" data-nav="categories">View All <i data-lucide="arrow-right"></i></span>
+                        <span class="view-all" data-nav="categories" style="cursor:pointer">View All <i data-lucide="arrow-right"></i></span>
                     </div>
                     <div class="related-grid" id="relatedGrid"></div>
                 </div>
@@ -1145,7 +1150,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <h2 class="footer-logo" data-nav="home">NEON</h2>
+                    <h2 class="footer-logo" style="cursor:pointer"><a data-nav="home" href="index.html" style="color:inherit;text-decoration:none">NEON</a></h2>
                     <p class="footer-desc">Thrifted culture. Curated style. Pieces with a past, made for the present.</p>
                     <div class="social-links">
                         <a href="#" class="social-link" aria-label="Instagram"><i data-lucide="instagram" style="width: 16px; height: 16px;"></i></a>
@@ -1156,11 +1161,11 @@
                 <div>
                     <h3 class="footer-column-title">Shop</h3>
                     <ul class="footer-links">
-                        <li><a class="footer-link" data-nav="categories">All Products</a></li>
-                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"hoodies"}'>Hoodies</a></li>
-                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"tshirts"}'>T-Shirts</a></li>
-                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"pants"}'>Pants</a></li>
-                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"accessories"}'>Accessories</a></li>
+                        <li><a class="footer-link" data-nav="categories" href="index.html?page=categories">All Products</a></li>
+                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"hoodies"}' href="index.html?page=categories&cat=hoodies">Hoodies</a></li>
+                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"tshirts"}' href="index.html?page=categories&cat=tshirts">T-Shirts</a></li>
+                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"pants"}' href="index.html?page=categories&cat=pants">Pants</a></li>
+                        <li><a class="footer-link" data-nav="categories" data-params='{"cat":"accessories"}' href="index.html?page=categories&cat=accessories">Accessories</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1179,7 +1184,7 @@
                         <li><a class="footer-link">FAQs</a></li>
                         <li><a class="footer-link">Track Your Order</a></li>
                         <li><a class="footer-link">Size Guide</a></li>
-                        <li><a class="footer-link" data-nav="search">Search</a></li>
+                        <li><a class="footer-link" data-nav="search" href="index.html?page=search">Search</a></li>
                     </ul>
                 </div>
             </div>
@@ -1194,6 +1199,16 @@
         <i data-lucide="check-circle"></i>
         <span id="toastMsg">Added to cart</span>
     </div>
+
+    <!-- No-JS fallback message -->
+    <noscript>
+        <div style="position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;text-align:center;padding:2rem;font-family:sans-serif;">
+            <div>
+                <h1 style="font-size:1.5rem;margin-bottom:1rem;">JavaScript Required</h1>
+                <p style="color:#6b7280;">Please enable JavaScript to browse the NEON store.</p>
+            </div>
+        </div>
+    </noscript>
 
     <!-- ===================================================
          SCRIPT: data + router + page logic
@@ -1414,6 +1429,21 @@
         }
 
         /* ===================== HELPERS ===================== */
+        function buildHref(page, params) {
+            var href = 'index.html';
+            if (page && page !== 'home') {
+                href += '?page=' + page;
+                if (params) {
+                    Object.keys(params).forEach(function (k) {
+                        if (params[k] !== null && params[k] !== undefined && params[k] !== '') {
+                            href += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+                        }
+                    });
+                }
+            }
+            return href;
+        }
+
         function formatPrice(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
         function discountPercent(price, original) {
             if (!original || original <= price) return 0;
@@ -1518,14 +1548,14 @@
             var catHTML = opts.highlightQuery ? highlight(p.categoryLabel, opts.highlightQuery) : escapeHTML(p.categoryLabel);
             return '' +
                 '<div class="product-card">' +
-                    '<a class="product-image-wrapper" data-nav="product" data-params=\'{"id":"' + p.id + '"}\'>' +
+                    '<a class="product-image-wrapper" data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + buildHref('product', { id: p.id }) + '">' +
                         '<div class="product-image-box"><img src="' + p.images[0] + '" alt="' + escapeHTML(p.name) + '" class="product-image"></div>' +
                         tag +
                         '<span class="product-quick" data-stop-nav="1"><i data-lucide="heart"></i></span>' +
                     '</a>' +
                     '<div class="product-info">' +
                         '<p class="product-cat">' + catHTML + '</p>' +
-                        '<h3 class="product-name"><a data-nav="product" data-params=\'{"id":"' + p.id + '"}\'>' + nameHTML + '</a></h3>' +
+                        '<h3 class="product-name"><a data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + buildHref('product', { id: p.id }) + '">' + nameHTML + '</a></h3>' +
                         '<div class="product-rating"><i data-lucide="star" style="fill:currentColor;"></i><span>' + p.rating.toFixed(1) + ' (' + p.reviews + ')</span></div>' +
                         '<div class="product-price-row">' +
                             '<span class="product-price">' + formatPrice(p.price) + '</span>' +
@@ -1543,7 +1573,7 @@
             var catGrid = document.getElementById('homeCategoriesGrid');
             catGrid.innerHTML = NEON_DATA.categories.map(function (cat) {
                 return '' +
-                    '<a class="category-card" data-nav="categories" data-params=\'{"cat":"' + cat.id + '"}\'>' +
+                    '<a class="category-card" data-nav="categories" data-params=\'{"cat":"' + cat.id + '"}\' href="' + buildHref('categories', { cat: cat.id }) + '">' +
                         '<div class="category-image-wrapper">' +
                             '<img src="' + cat.image + '" alt="' + escapeHTML(cat.name) + ' Collection" class="category-image">' +
                             '<div class="category-gradient"></div>' +
@@ -1555,12 +1585,13 @@
             // Products (home uses legacy compact styling — no rating, no tag)
             var prodGrid = document.getElementById('homeProductsGrid');
             prodGrid.innerHTML = NEON_DATA.products.map(function (p) {
+                var pHref = buildHref('product', { id: p.id });
                 return '' +
                     '<div class="product-card">' +
-                        '<a class="product-image-wrapper" data-nav="product" data-params=\'{"id":"' + p.id + '"}\'>' +
+                        '<a class="product-image-wrapper" data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + pHref + '">' +
                             '<div class="product-image-box"><img src="' + p.images[0] + '" alt="' + escapeHTML(p.name) + '" class="product-image"></div>' +
                         '</a>' +
-                        '<a data-nav="product" data-params=\'{"id":"' + p.id + '"}\'><h3 class="product-name">' + escapeHTML(p.name) + '</h3></a>' +
+                        '<a data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + pHref + '"><h3 class="product-name">' + escapeHTML(p.name) + '</h3></a>' +
                         '<p class="product-price">' + formatPrice(p.price) + '</p>' +
                         '<button class="btn-add-cart" data-add-product="' + p.id + '">Add to Cart</button>' +
                     '</div>';
@@ -1689,7 +1720,7 @@
             var related = NEON_DATA.getRelatedProducts(p.id, 4);
             document.getElementById('relatedGrid').innerHTML = related.map(function (rp) {
                 return '' +
-                    '<a class="related-card" data-nav="product" data-params=\'{"id":"' + rp.id + '"}\'>' +
+                    '<a class="related-card" data-nav="product" data-params=\'{"id":"' + rp.id + '"}\' href="' + buildHref('product', { id: rp.id }) + '">' +
                         '<div class="related-image-box">' +
                             '<img src="' + rp.images[0] + '" alt="' + escapeHTML(rp.name) + '">' +
                             '<span class="related-wishlist" data-stop-nav="1"><i data-lucide="heart"></i></span>' +
@@ -1799,7 +1830,7 @@
             document.getElementById('showcaseGrid').innerHTML = NEON_DATA.categories.map(function (cat) {
                 var count = NEON_DATA.getProductsByCategory(cat.id).length;
                 return '' +
-                    '<a class="showcase-card" data-nav="categories" data-params=\'{"cat":"' + cat.id + '"}\'>' +
+                    '<a class="showcase-card" data-nav="categories" data-params=\'{"cat":"' + cat.id + '"}\' href="' + buildHref('categories', { cat: cat.id }) + '">' +
                         '<div class="showcase-image"><img src="' + cat.image + '" alt="' + escapeHTML(cat.name) + '"><div class="showcase-overlay"><h3>' + escapeHTML(cat.name) + '</h3></div></div>' +
                         '<div class="showcase-meta"><span>' + escapeHTML(cat.blurb) + '</span><span class="count">' + count + ' items</span></div>' +
                     '</a>';
@@ -1942,7 +1973,7 @@
             var trending = NEON_DATA.products.slice().sort(function (a, b) { return b.rating - a.rating; }).slice(0, 4);
             document.getElementById('recentGrid').innerHTML = trending.map(function (p) {
                 return '' +
-                    '<a class="recent-card" data-nav="product" data-params=\'{"id":"' + p.id + '"}\'>' +
+                    '<a class="recent-card" data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + buildHref('product', { id: p.id }) + '">' +
                         '<div class="recent-card-img"><img src="' + p.images[0] + '" alt="' + escapeHTML(p.name) + '"></div>' +
                         '<div class="recent-card-info"><div class="recent-card-name">' + escapeHTML(p.name) + '</div><div class="recent-card-price">' + formatPrice(p.price) + ' • ' + p.rating.toFixed(1) + ' ★</div></div>' +
                     '</a>';
