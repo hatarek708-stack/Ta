@@ -11,6 +11,25 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
+    <!-- Version tag for cache busting - bump this number on every deploy -->
+    <meta name="version" content="2024-08-11-v3">
+
+    <!-- Force fresh load: redirect to URL with version param if missing -->
+    <script>
+    (function() {
+        try {
+            var VERSION = 'v3';
+            var url = new URL(window.location.href);
+            if (url.searchParams.get('cv') !== VERSION) {
+                url.searchParams.set('cv', VERSION);
+                window.location.replace(url.toString());
+            }
+        } catch (e) {
+            console.error('Cache bust failed:', e);
+        }
+    })();
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2038,7 +2057,10 @@
                 var target = e.target.closest('[data-nav]');
                 if (!target) return;
                 if (target.hasAttribute('data-stop-nav')) return;
+                // If it's a button inside a link, let the link handle navigation
+                if (e.target.closest('[data-add-product]')) return;
                 e.preventDefault();
+                e.stopPropagation();
                 var page = target.getAttribute('data-nav');
                 if (page === 'about' || page === 'contact') {
                     showToast('Coming soon');
