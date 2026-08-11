@@ -825,61 +825,373 @@
 
         /* ===== LANGUAGE TOGGLE BUTTON ===== */
         .lang-btn {
-            font-size: 0.9375rem !important;
-            font-weight: 700 !important;
-            min-width: 32px;
-            text-align: center;
-            color: var(--color-gray-900) !important;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.5rem 0.625rem !important;
             border: 1px solid var(--color-gray-200);
+            border-radius: 9999px !important;
+            color: var(--color-gray-800) !important;
+            background-color: var(--color-white);
+            font-size: 0.8125rem !important;
+            font-weight: 600 !important;
             line-height: 1;
+            transition: all 0.25s ease;
         }
+        .lang-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+        .lang-btn .lang-code { font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.02em; }
         .lang-btn:hover {
             background-color: var(--color-black) !important;
             color: var(--color-white) !important;
             border-color: var(--color-black);
         }
-        [dir="rtl"] .lang-btn { font-size: 0.875rem !important; }
-        .lang-toggle-mobile { display: block; margin-top: 0.5rem; }
+        .lang-btn:hover svg { color: var(--color-white); }
+        [dir="rtl"] .lang-btn { font-size: 0.8125rem !important; }
+        .lang-toggle-mobile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.875rem 1rem !important;
+            background: var(--color-gray-100);
+            font-weight: 600;
+            border-radius: 0.5rem;
+        }
+        .lang-toggle-mobile svg { width: 18px; height: 18px; }
 
         /* ===== RTL SUPPORT ===== */
-        [dir="rtl"] body { text-align: right; }
+        /* Force RTL flow on ALL elements when in Arabic mode */
+        [dir="rtl"] body { text-align: right; direction: rtl; }
+        [dir="rtl"] .container,
+        [dir="rtl"] main,
+        [dir="rtl"] section,
+        [dir="rtl"] header,
+        [dir="rtl"] footer,
+        [dir="rtl"] nav,
+        [dir="rtl"] div,
+        [dir="rtl"] p,
+        [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+        [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6,
+        [dir="rtl"] ul, [dir="rtl"] li,
+        [dir="rtl"] span, [dir="rtl"] a, [dir="rtl"] button { direction: rtl; }
+
+        /* Numeric prices stay LTR (so 1,699 not 699,1) but text around them is RTL */
+        [dir="rtl"] .product-price,
+        [dir="rtl"] .price-current,
+        [dir="rtl"] .price-original,
+        [dir="rtl"] .related-price,
+        [dir="rtl"] .recent-card-price,
+        [dir="rtl"] .cart-count { direction: ltr; unicode-bidi: isolate; }
+
         [dir="rtl"] .header-container { flex-direction: row-reverse; }
         [dir="rtl"] .nav-menu { flex-direction: row-reverse; }
         [dir="rtl"] .header-icons { flex-direction: row-reverse; }
         [dir="rtl"] .mobile-nav { right: auto; left: -100%; transition: left 0.3s ease; }
         [dir="rtl"] .mobile-nav.active { left: 0; right: auto; }
+        [dir="rtl"] .mobile-nav-links { text-align: right; }
+        [dir="rtl"] .mobile-nav-header { flex-direction: row-reverse; }
         [dir="rtl"] .cart-count { right: auto; left: -4px; }
-        [dir="rtl"] .feature-item { flex-direction: row-reverse; }
-        [dir="rtl"] .trust-item { flex-direction: row-reverse; }
+        [dir="rtl"] .feature-item { flex-direction: row-reverse; text-align: right; }
+        [dir="rtl"] .feature-icon { order: 2; }
+        [dir="rtl"] .trust-item { flex-direction: row-reverse; text-align: right; }
+        [dir="rtl"] .trust-icon { order: 2; }
         [dir="rtl"] .product-tag { left: auto; right: 0.625rem; }
         [dir="rtl"] .product-quick { right: auto; left: 0.625rem; }
         [dir="rtl"] .related-wishlist { right: auto; left: 0.625rem; }
         [dir="rtl"] .zoom-btn { right: auto; left: 1rem; }
         [dir="rtl"] .search-input-wrap .search-icon { left: auto; right: 1rem; }
-        [dir="rtl"] .search-input { padding: 1.125rem 3rem 1.125rem 1rem; }
+        [dir="rtl"] .search-input { padding: 1.125rem 3rem 1.125rem 1rem; text-align: right; }
         [dir="rtl"] .search-clear { padding: 0.75rem 1rem; }
+        [dir="rtl"] .search-submit { flex-direction: row-reverse; }
         [dir="rtl"] .breadcrumb { text-align: right; }
         [dir="rtl"] .breadcrumb .sep { display: inline-block; transform: rotate(180deg); }
+        [dir="rtl"] .breadcrumb .container { display: block; }
         [dir="rtl"] .section-head { flex-direction: row-reverse; }
+        [dir="rtl"] .view-all { flex-direction: row-reverse; }
         [dir="rtl"] .view-all svg { transform: rotate(180deg); }
         [dir="rtl"] .instagram-nav-btn svg { transform: rotate(180deg); }
+        [dir="rtl"] .instagram-header { flex-direction: row-reverse; }
         [dir="rtl"] .tabs-nav { flex-direction: row-reverse; }
+        [dir="rtl"] .tabs-section .container { text-align: right; }
+        [dir="rtl"] .tab-content-grid { direction: rtl; }
+        [dir="rtl"] .tab-specs li { flex-direction: row-reverse; justify-content: flex-end; }
         [dir="rtl"] .footer-grid { text-align: right; }
+        [dir="rtl"] .footer-brand { text-align: right; }
+        [dir="rtl"] .social-links { flex-direction: row-reverse; }
         [dir="rtl"] .hero-grid { direction: rtl; }
+        [dir="rtl"] .hero-content { text-align: right; }
+        [dir="rtl"] .hero-image-wrapper { order: -1; }
         [dir="rtl"] .promo-content { text-align: right; }
+        [dir="rtl"] .promo-card .promo-content { align-items: flex-start; }
         [dir="rtl"] .category-content { text-align: center; }
         [dir="rtl"] .showcase-overlay { justify-content: flex-start; }
         [dir="rtl"] .showcase-meta { flex-direction: row-reverse; }
-        [dir="rtl"] .recent-card { flex-direction: row-reverse; }
+        [dir="rtl"] .recent-card { flex-direction: row-reverse; text-align: right; }
+        [dir="rtl"] .recent-card-info { text-align: right; }
         [dir="rtl"] .quantity-control { flex-direction: row-reverse; }
-        [dir="rtl"] .toast { direction: rtl; }
-        [dir="rtl"] .selector-label { flex-direction: row-reverse; }
+        [dir="rtl"] .toast { direction: rtl; flex-direction: row-reverse; }
+        [dir="rtl"] .selector-label { flex-direction: row-reverse; text-align: right; }
+        [dir="rtl"] .selector-label .size-guide { flex-direction: row-reverse; }
         [dir="rtl"] .color-options { justify-content: flex-end; }
         [dir="rtl"] .action-row { direction: rtl; }
+        [dir="rtl"] .btn-cart { flex-direction: row-reverse; }
         [dir="rtl"] .toolbar-right { flex-direction: row-reverse; }
         [dir="rtl"] .filter-pills { flex-direction: row-reverse; }
         [dir="rtl"] .search-suggestions { flex-direction: row-reverse; }
         [dir="rtl"] .empty-suggestions { flex-direction: row-reverse; }
+        [dir="rtl"] .empty-state { direction: rtl; }
+        [dir="rtl"] .products-grid { direction: rtl; }
+        [dir="rtl"] .product-info { text-align: right; }
+        [dir="rtl"] .product-rating { flex-direction: row-reverse; justify-content: flex-end; }
+        [dir="rtl"] .product-price-row { flex-direction: row-reverse; justify-content: flex-end; }
+        [dir="rtl"] .related-grid { direction: rtl; }
+        [dir="rtl"] .related-name,
+        [dir="rtl"] .related-price { text-align: right; }
+        [dir="rtl"] .page-hero { text-align: right; }
+        [dir="rtl"] .shop-section,
+        [dir="rtl"] .results-section { direction: rtl; }
+        [dir="rtl"] .shop-toolbar,
+        [dir="rtl"] .results-toolbar { flex-direction: row-reverse; }
+        [dir="rtl"] .categories-showcase { direction: rtl; }
+        [dir="rtl"] .showcase-card { text-align: right; }
+        [dir="rtl"] .section-title { text-align: center; }
+        [dir="rtl"] .features-grid { direction: rtl; }
+        [dir="rtl"] .promo-grid { direction: rtl; }
+        [dir="rtl"] .instagram-grid { direction: rtl; }
+        [dir="rtl"] .categories-grid { direction: rtl; }
+        [dir="rtl"] .trending-section { direction: rtl; }
+        [dir="rtl"] .category-section { direction: rtl; }
+        [dir="rtl"] .features-bar { direction: rtl; }
+        [dir="rtl"] .promo-section { direction: rtl; }
+        [dir="rtl"] .instagram-section { direction: rtl; }
+        [dir="rtl"] .product-detail { direction: rtl; }
+        [dir="rtl"] .product-grid { direction: rtl; }
+        [dir="rtl"] .gallery { direction: rtl; }
+        [dir="rtl"] .thumbnails { direction: rtl; }
+        [dir="rtl"] .product-info > * { text-align: right; }
+        [dir="rtl"] .rating-row { flex-direction: row-reverse; justify-content: flex-end; }
+        [dir="rtl"] .stars { flex-direction: row-reverse; }
+        [dir="rtl"] .price-row { flex-direction: row-reverse; justify-content: flex-end; }
+        [dir="rtl"] .trust-badges { direction: rtl; }
+        [dir="rtl"] .divider { direction: rtl; }
+        [dir="rtl"] .quantity-row { text-align: right; }
+        [dir="rtl"] .quantity-label { text-align: right; }
+        [dir="rtl"] .selector-row { text-align: right; }
+        [dir="rtl"] .product-badge { direction: rtl; }
+        [dir="rtl"] .breadcrumb .container > * { direction: rtl; }
+        [dir="rtl"] .top-banner { direction: rtl; }
+        [dir="rtl"] .pagination-dots { direction: rtl; }
+        [dir="rtl"] .logo { direction: ltr; }
+
+        /* ===== ORDER SUMMARY CARD (on product detail page) ===== */
+        .order-summary-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-gray-100);
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-gray-100);
+            margin-bottom: 1.25rem;
+        }
+        .order-summary-header svg {
+            width: 20px;
+            height: 20px;
+            color: var(--color-gray-900);
+        }
+        .order-summary-header h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .order-item {
+            display: flex;
+            gap: 0.875rem;
+            padding: 0.75rem 0;
+        }
+        .order-item-img {
+            width: 72px;
+            height: 90px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background-color: var(--color-gray-100);
+            flex-shrink: 0;
+        }
+        .order-item-img img { width: 100%; height: 100%; object-fit: cover; }
+        .order-item-info { flex: 1; min-width: 0; }
+        .order-item-name {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+        .order-item-variant {
+            font-size: 0.8125rem;
+            color: var(--color-gray-500);
+            margin-bottom: 0.125rem;
+        }
+        .order-item-qty {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 0.375rem;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        .order-item-qty button {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-700);
+        }
+        .order-item-qty button:hover { background-color: var(--color-gray-100); color: var(--color-black); }
+        .order-item-qty span {
+            min-width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+        .order-item-price {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+            flex-shrink: 0;
+        }
+        .order-item-price .current {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            direction: ltr;
+        }
+        .order-item-price .original {
+            font-size: 0.75rem;
+            color: var(--color-gray-400);
+            text-decoration: line-through;
+            direction: ltr;
+        }
+
+        .order-totals {
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--color-gray-100);
+        }
+        .order-total-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.375rem 0;
+            font-size: 0.875rem;
+        }
+        .order-total-row .label { color: var(--color-gray-600); }
+        .order-total-row .value { color: var(--color-gray-900); font-weight: 500; direction: ltr; }
+        .order-total-row.discount .value { color: #2e7d32; }
+        .order-total-row.grand {
+            padding-top: 0.75rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--color-gray-100);
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+        .order-total-row.grand .label { color: var(--color-gray-900); font-weight: 700; }
+        .order-total-row.grand .value { color: var(--color-gray-900); font-size: 1.25rem; }
+
+        .order-trust {
+            margin-top: 1.25rem;
+            padding: 0.875rem;
+            background-color: var(--color-gray-50);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+        .order-trust svg {
+            width: 22px;
+            height: 22px;
+            color: #2e7d32;
+            flex-shrink: 0;
+        }
+        .order-trust-text { flex: 1; }
+        .order-trust-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+        .order-trust-sub {
+            font-size: 0.6875rem;
+            color: var(--color-gray-500);
+            margin-top: 0.125rem;
+        }
+
+        .btn-checkout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 0.875rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1.25rem;
+            transition: var(--transition);
+        }
+        .btn-checkout:hover { background-color: var(--color-gray-800); }
+        .btn-checkout svg { width: 18px; height: 18px; }
+
+        .order-terms {
+            font-size: 0.6875rem;
+            color: var(--color-gray-500);
+            text-align: center;
+            margin-top: 0.625rem;
+            line-height: 1.4;
+        }
+
+        /* RTL for order summary */
+        [dir="rtl"] .order-item { flex-direction: row-reverse; }
+        [dir="rtl"] .order-item-price { align-items: flex-start; }
+        [dir="rtl"] .order-trust { flex-direction: row-reverse; text-align: right; }
+        [dir="rtl"] .btn-checkout { flex-direction: row-reverse; }
+        [dir="rtl"] .order-total-row { flex-direction: row-reverse; }
+        [dir="rtl"] .order-summary-header { flex-direction: row-reverse; }
+
+        /* Layout: product detail + order summary side by side on large screens */
+        @media (min-width: 1280px) {
+            .product-detail-wrap {
+                display: grid;
+                grid-template-columns: 1fr 360px;
+                gap: 2rem;
+                align-items: start;
+            }
+            .product-grid { grid-column: 1; }
+            .order-summary-card { grid-column: 2; }
+        }
+        @media (max-width: 1279px) {
+            .order-summary-card { margin-top: 2rem; }
+        }
     </style>
 </head>
 <body>
@@ -900,7 +1212,10 @@
             </nav>
 
             <div class="header-icons">
-                <button class="icon-btn lang-btn" id="langToggle" aria-label="Switch to Arabic" title="Language">ع</button>
+                <button class="icon-btn lang-btn" id="langToggle" aria-label="Switch to Arabic" title="Switch language">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <span class="lang-code">ع</span>
+                </button>
                 <a class="icon-btn" aria-label="Search" data-nav="search" href="index.html?page=search" data-i18n-aria="nav_search">
                     <i data-lucide="search" style="width: 20px; height: 20px;"></i>
                 </a>
@@ -931,7 +1246,10 @@
             <a class="mobile-nav-link" data-nav="search" href="index.html?page=search" data-i18n="nav_search">Search</a>
             <a class="mobile-nav-link" data-nav="about" href="index.html?page=about" data-i18n="nav_about">About Us</a>
             <a class="mobile-nav-link" data-nav="contact" href="index.html?page=contact" data-i18n="nav_contact">Contact</a>
-            <button class="mobile-nav-link lang-toggle-mobile" id="langToggleMobile" style="text-align:center;background:var(--color-gray-100);font-weight:700;">ع — العربية</button>
+            <button class="mobile-nav-link lang-toggle-mobile" id="langToggleMobile">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span id="langToggleMobileText">ع — العربية</span>
+            </button>
         </div>
     </div>
 
@@ -1079,7 +1397,12 @@
 
             <section class="product-detail">
                 <div class="container">
-                    <div class="product-grid" id="productGrid"></div>
+                    <div class="product-detail-wrap">
+                        <div class="product-grid" id="productGrid"></div>
+                        <div class="order-summary-card" id="orderSummaryCard">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1619,6 +1942,21 @@
                 instagram_title: 'Follow Us on Instagram',
                 // Shipping text (in tab)
                 shipping_text: 'Free shipping on orders above 5,000 DA across Algeria. Dispatched within 24 hours. Delivery in 3-5 business days to all 58 wilayas. 30-day easy returns.',
+                // Order summary card
+                os_title: 'Order Summary',
+                os_color: 'Color',
+                os_size: 'Size',
+                os_qty: 'Qty',
+                os_subtotal: 'Subtotal',
+                os_shipping: 'Shipping',
+                os_free: 'FREE',
+                os_discount: 'Discount',
+                os_total: 'Total',
+                os_checkout: 'Checkout Now',
+                os_trust_title: '100% Secure Guarantee',
+                os_trust_sub: 'Safe delivery guaranteed • Protected value',
+                os_terms: 'By clicking checkout, you agree to our Terms & Conditions and Privacy Policy.',
+                os_avail: 'In Stock',
                 // Product-specific (kept in English since brand names)
                 // Categories names kept as-is (Hoodies, T-Shirts, etc.)
             },
@@ -1744,6 +2082,21 @@
                 promo_shop_sale: 'تسوق التخفيضات',
                 instagram_title: 'تابعنا على إنستغرام',
                 shipping_text: 'شحن مجاني للطلبات فوق 5,000 دج إلى جميع ولايات الجزائر الـ 58. يُشحن خلال 24 ساعة. التوصيل خلال 3-5 أيام عمل. إرجاع سهل خلال 30 يوم.',
+                // Order summary card
+                os_title: 'ملخص الطلب',
+                os_color: 'اللون',
+                os_size: 'المقاس',
+                os_qty: 'الكمية',
+                os_subtotal: 'المجموع الفرعي',
+                os_shipping: 'الشحن',
+                os_free: 'مجاني',
+                os_discount: 'الخصم',
+                os_total: 'الإجمالي',
+                os_checkout: 'إتمام الطلب الآن',
+                os_trust_title: 'ضمان آمن 100%',
+                os_trust_sub: 'يصلك بالسلامة • قيمة مضمونة',
+                os_terms: 'بالنقر على إتمام الطلب أنت توافق على الشروط والأحكام وسياسة الخصوصية.',
+                os_avail: 'متوفر',
             }
         };
 
@@ -1782,11 +2135,20 @@
             var dir = (lang === 'ar') ? 'rtl' : 'ltr';
             document.documentElement.lang = lang;
             document.documentElement.dir = dir;
-            // Update language toggle button label
+            // Update language toggle button label (header)
             var btn = document.getElementById('langToggle');
             if (btn) {
-                btn.textContent = (lang === 'ar') ? 'EN' : 'ع';
+                var code = btn.querySelector('.lang-code');
+                if (code) {
+                    code.textContent = (lang === 'ar') ? 'EN' : 'ع';
+                }
                 btn.setAttribute('aria-label', (lang === 'ar') ? 'Switch to English' : 'التبديل إلى العربية');
+                btn.setAttribute('title', (lang === 'ar') ? 'Switch to English' : 'التبديل إلى العربية');
+            }
+            // Update mobile language toggle label
+            var btnMobileText = document.getElementById('langToggleMobileText');
+            if (btnMobileText) {
+                btnMobileText.textContent = (lang === 'ar') ? 'EN — English' : 'ع — العربية';
             }
             // Re-translate static elements with [data-i18n]
             var els = document.querySelectorAll('[data-i18n]');
@@ -2154,6 +2516,93 @@
             }).join('');
 
             bindProductPageInteractions();
+            renderOrderSummary(p);
+        }
+
+        /* ===================== ORDER SUMMARY CARD ===================== */
+        function renderOrderSummary(p) {
+            var card = document.getElementById('orderSummaryCard');
+            if (!card || !p) return;
+
+            var discount = discountPercent(p.price, p.originalPrice);
+            var savings = p.originalPrice ? (p.originalPrice - p.price) : 0;
+            var qty = state.quantity || 1;
+            var subtotal = p.price * qty;
+            var totalSavings = savings * qty;
+            var shipping = subtotal >= 5000 ? 0 : 350; // Free over 5,000 DA, else 350 DA
+            var total = subtotal + shipping;
+
+            card.innerHTML =
+                '<div class="order-summary-header">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                    '<h3>' + escapeHTML(t('os_title')) + '</h3>' +
+                '</div>' +
+                '<div class="order-item">' +
+                    '<div class="order-item-img"><img src="' + p.images[0] + '" alt="' + escapeHTML(p.name) + '"></div>' +
+                    '<div class="order-item-info">' +
+                        '<div class="order-item-name">' + escapeHTML(p.name) + '</div>' +
+                        '<div class="order-item-variant">' + escapeHTML(t('os_color')) + ': ' + escapeHTML(p.colors[state.selectedColor || 0].name) + '</div>' +
+                        '<div class="order-item-variant">' + escapeHTML(t('os_size')) + ': ' + escapeHTML(state.selectedSize || '—') + '</div>' +
+                        '<div class="order-item-qty" id="osQtyControl">' +
+                            '<button id="osQtyMinus" aria-label="Decrease"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                            '<span id="osQtyVal">' + qty + '</span>' +
+                            '<button id="osQtyPlus" aria-label="Increase"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="order-item-price">' +
+                        '<span class="current">' + formatPrice(p.price) + '</span>' +
+                        (p.originalPrice ? '<span class="original">' + formatPrice(p.originalPrice) + '</span>' : '') +
+                    '</div>' +
+                '</div>' +
+                '<div class="order-totals">' +
+                    '<div class="order-total-row"><span class="label">' + escapeHTML(t('os_subtotal')) + '</span><span class="value">' + formatPrice(subtotal) + '</span></div>' +
+                    '<div class="order-total-row"><span class="label">' + escapeHTML(t('os_shipping')) + '</span><span class="value">' + (shipping === 0 ? escapeHTML(t('os_free')) : formatPrice(shipping)) + '</span></div>' +
+                    (totalSavings > 0 ? '<div class="order-total-row discount"><span class="label">' + escapeHTML(t('os_discount')) + '</span><span class="value">-' + formatPrice(totalSavings) + '</span></div>' : '') +
+                    '<div class="order-total-row grand"><span class="label">' + escapeHTML(t('os_total')) + '</span><span class="value">' + formatPrice(total) + '</span></div>' +
+                '</div>' +
+                '<button class="btn-checkout" id="osCheckoutBtn">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
+                    escapeHTML(t('os_checkout')) +
+                '</button>' +
+                '<p class="order-terms">' + escapeHTML(t('os_terms')) + '</p>' +
+                '<div class="order-trust">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>' +
+                    '<div class="order-trust-text">' +
+                        '<div class="order-trust-title">' + escapeHTML(t('os_trust_title')) + '</div>' +
+                        '<div class="order-trust-sub">' + escapeHTML(t('os_trust_sub')) + '</div>' +
+                    '</div>' +
+                '</div>';
+
+            // Bind qty controls in order summary (sync with main product page qty)
+            var osMinus = document.getElementById('osQtyMinus');
+            var osPlus = document.getElementById('osQtyPlus');
+            var osQtyVal = document.getElementById('osQtyVal');
+            if (osMinus) osMinus.addEventListener('click', function () {
+                if (state.quantity > 1) {
+                    state.quantity--;
+                    var mainInput = document.getElementById('qtyInput');
+                    if (mainInput) mainInput.value = state.quantity;
+                    osQtyVal.textContent = state.quantity;
+                    renderOrderSummary(p);
+                }
+            });
+            if (osPlus) osPlus.addEventListener('click', function () {
+                if (state.quantity < 10) {
+                    state.quantity++;
+                    var mainInput = document.getElementById('qtyInput');
+                    if (mainInput) mainInput.value = state.quantity;
+                    osQtyVal.textContent = state.quantity;
+                    renderOrderSummary(p);
+                }
+            });
+
+            // Checkout button
+            var checkoutBtn = document.getElementById('osCheckoutBtn');
+            if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
+                if (!state.selectedSize) { showToast(t('toast_select_size')); return; }
+                addToCart(p, state.selectedSize, p.colors[state.selectedColor || 0].name, state.quantity);
+                showToast(t('os_checkout') + ' • ' + t('toast_checkout_soon'));
+            });
         }
 
         function bindProductPageInteractions() {
@@ -2181,6 +2630,7 @@
                     swatches.forEach(function (x) { x.classList.remove('active'); });
                     s.classList.add('active');
                     document.getElementById('colorName').textContent = p.colors[idx].name;
+                    renderOrderSummary(p);
                 });
             });
 
@@ -2192,15 +2642,16 @@
                     sizeBtns.forEach(function (x) { x.classList.remove('active'); });
                     b.classList.add('active');
                     document.getElementById('sizeValue').textContent = state.selectedSize;
+                    renderOrderSummary(p);
                 });
             });
 
             // Quantity
             document.getElementById('qtyMinus').addEventListener('click', function () {
-                if (state.quantity > 1) { state.quantity--; document.getElementById('qtyInput').value = state.quantity; }
+                if (state.quantity > 1) { state.quantity--; document.getElementById('qtyInput').value = state.quantity; renderOrderSummary(p); }
             });
             document.getElementById('qtyPlus').addEventListener('click', function () {
-                if (state.quantity < 10) { state.quantity++; document.getElementById('qtyInput').value = state.quantity; }
+                if (state.quantity < 10) { state.quantity++; document.getElementById('qtyInput').value = state.quantity; renderOrderSummary(p); }
             });
 
             // Add to cart
