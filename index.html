@@ -822,11 +822,69 @@
 
         /* Highlight for search matches */
         mark.neon-mark { background: #fef08a; color: #111827; padding: 0 2px; border-radius: 2px; }
+
+        /* ===== LANGUAGE TOGGLE BUTTON ===== */
+        .lang-btn {
+            font-size: 0.9375rem !important;
+            font-weight: 700 !important;
+            min-width: 32px;
+            text-align: center;
+            color: var(--color-gray-900) !important;
+            border: 1px solid var(--color-gray-200);
+            line-height: 1;
+        }
+        .lang-btn:hover {
+            background-color: var(--color-black) !important;
+            color: var(--color-white) !important;
+            border-color: var(--color-black);
+        }
+        [dir="rtl"] .lang-btn { font-size: 0.875rem !important; }
+        .lang-toggle-mobile { display: block; margin-top: 0.5rem; }
+
+        /* ===== RTL SUPPORT ===== */
+        [dir="rtl"] body { text-align: right; }
+        [dir="rtl"] .header-container { flex-direction: row-reverse; }
+        [dir="rtl"] .nav-menu { flex-direction: row-reverse; }
+        [dir="rtl"] .header-icons { flex-direction: row-reverse; }
+        [dir="rtl"] .mobile-nav { right: auto; left: -100%; transition: left 0.3s ease; }
+        [dir="rtl"] .mobile-nav.active { left: 0; right: auto; }
+        [dir="rtl"] .cart-count { right: auto; left: -4px; }
+        [dir="rtl"] .feature-item { flex-direction: row-reverse; }
+        [dir="rtl"] .trust-item { flex-direction: row-reverse; }
+        [dir="rtl"] .product-tag { left: auto; right: 0.625rem; }
+        [dir="rtl"] .product-quick { right: auto; left: 0.625rem; }
+        [dir="rtl"] .related-wishlist { right: auto; left: 0.625rem; }
+        [dir="rtl"] .zoom-btn { right: auto; left: 1rem; }
+        [dir="rtl"] .search-input-wrap .search-icon { left: auto; right: 1rem; }
+        [dir="rtl"] .search-input { padding: 1.125rem 3rem 1.125rem 1rem; }
+        [dir="rtl"] .search-clear { padding: 0.75rem 1rem; }
+        [dir="rtl"] .breadcrumb { text-align: right; }
+        [dir="rtl"] .breadcrumb .sep { display: inline-block; transform: rotate(180deg); }
+        [dir="rtl"] .section-head { flex-direction: row-reverse; }
+        [dir="rtl"] .view-all svg { transform: rotate(180deg); }
+        [dir="rtl"] .instagram-nav-btn svg { transform: rotate(180deg); }
+        [dir="rtl"] .tabs-nav { flex-direction: row-reverse; }
+        [dir="rtl"] .footer-grid { text-align: right; }
+        [dir="rtl"] .hero-grid { direction: rtl; }
+        [dir="rtl"] .promo-content { text-align: right; }
+        [dir="rtl"] .category-content { text-align: center; }
+        [dir="rtl"] .showcase-overlay { justify-content: flex-start; }
+        [dir="rtl"] .showcase-meta { flex-direction: row-reverse; }
+        [dir="rtl"] .recent-card { flex-direction: row-reverse; }
+        [dir="rtl"] .quantity-control { flex-direction: row-reverse; }
+        [dir="rtl"] .toast { direction: rtl; }
+        [dir="rtl"] .selector-label { flex-direction: row-reverse; }
+        [dir="rtl"] .color-options { justify-content: flex-end; }
+        [dir="rtl"] .action-row { direction: rtl; }
+        [dir="rtl"] .toolbar-right { flex-direction: row-reverse; }
+        [dir="rtl"] .filter-pills { flex-direction: row-reverse; }
+        [dir="rtl"] .search-suggestions { flex-direction: row-reverse; }
+        [dir="rtl"] .empty-suggestions { flex-direction: row-reverse; }
     </style>
 </head>
 <body>
     <!-- Top Banner -->
-    <div class="top-banner">FREE SHIPPING ON ALL ORDERS ABOVE ₹1499</div>
+    <div class="top-banner" data-i18n="topBanner">FREE SHIPPING ON ALL ORDERS ABOVE 5,000 DA</div>
 
     <!-- Header (shared) -->
     <header class="header">
@@ -834,22 +892,23 @@
             <a class="logo" data-nav="home" href="index.html">NEON</a>
 
             <nav class="nav-menu">
-                <a class="nav-link" data-nav="home" href="index.html">Home</a>
-                <a class="nav-link" data-nav="categories" href="index.html?page=categories">Shop</a>
-                <a class="nav-link" data-nav="categories" href="index.html?page=categories">Collections</a>
-                <a class="nav-link" data-nav="about" href="index.html?page=about">About Us</a>
-                <a class="nav-link" data-nav="contact" href="index.html?page=contact">Contact</a>
+                <a class="nav-link" data-nav="home" href="index.html" data-i18n="nav_home">Home</a>
+                <a class="nav-link" data-nav="categories" href="index.html?page=categories" data-i18n="nav_shop">Shop</a>
+                <a class="nav-link" data-nav="categories" href="index.html?page=categories" data-i18n="nav_collections">Collections</a>
+                <a class="nav-link" data-nav="about" href="index.html?page=about" data-i18n="nav_about">About Us</a>
+                <a class="nav-link" data-nav="contact" href="index.html?page=contact" data-i18n="nav_contact">Contact</a>
             </nav>
 
             <div class="header-icons">
-                <a class="icon-btn" aria-label="Search" data-nav="search" href="index.html?page=search">
+                <button class="icon-btn lang-btn" id="langToggle" aria-label="Switch to Arabic" title="Language">ع</button>
+                <a class="icon-btn" aria-label="Search" data-nav="search" href="index.html?page=search" data-i18n-aria="nav_search">
                     <i data-lucide="search" style="width: 20px; height: 20px;"></i>
                 </a>
-                <button class="icon-btn cart-btn" aria-label="Cart" id="cartBtn">
+                <button class="icon-btn cart-btn" aria-label="Cart" id="cartBtn" data-i18n-aria="cart_aria">
                     <i data-lucide="shopping-bag" style="width: 20px; height: 20px;"></i>
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
-                <button class="mobile-menu-btn" aria-label="Menu" id="mobileMenuBtn">
+                <button class="mobile-menu-btn" aria-label="Menu" id="mobileMenuBtn" data-i18n-aria="menu_aria">
                     <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
                 </button>
             </div>
@@ -861,17 +920,18 @@
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-header">
             <span class="logo" data-nav="home">NEON</span>
-            <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">
+            <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu" data-i18n-aria="close_menu">
                 <i data-lucide="x" style="width: 24px; height: 24px;"></i>
             </button>
         </div>
         <div class="mobile-nav-links">
-            <a class="mobile-nav-link" data-nav="home" href="index.html">Home</a>
-            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories">Shop</a>
-            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories">Collections</a>
-            <a class="mobile-nav-link" data-nav="search" href="index.html?page=search">Search</a>
-            <a class="mobile-nav-link" data-nav="about" href="index.html?page=about">About Us</a>
-            <a class="mobile-nav-link" data-nav="contact" href="index.html?page=contact">Contact</a>
+            <a class="mobile-nav-link" data-nav="home" href="index.html" data-i18n="nav_home">Home</a>
+            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories" data-i18n="nav_shop">Shop</a>
+            <a class="mobile-nav-link" data-nav="categories" href="index.html?page=categories" data-i18n="nav_collections">Collections</a>
+            <a class="mobile-nav-link" data-nav="search" href="index.html?page=search" data-i18n="nav_search">Search</a>
+            <a class="mobile-nav-link" data-nav="about" href="index.html?page=about" data-i18n="nav_about">About Us</a>
+            <a class="mobile-nav-link" data-nav="contact" href="index.html?page=contact" data-i18n="nav_contact">Contact</a>
+            <button class="mobile-nav-link lang-toggle-mobile" id="langToggleMobile" style="text-align:center;background:var(--color-gray-100);font-weight:700;">ع — العربية</button>
         </div>
     </div>
 
@@ -884,10 +944,10 @@
             <section class="hero">
                 <div class="container hero-grid">
                     <div class="hero-content">
-                        <p class="hero-badge">New Arrivals</p>
-                        <h1 class="hero-title">THRIFTED.<br>CURATED.</h1>
-                        <p class="hero-subtitle">Premium thrifted pieces. Handpicked for quality. Priced for you.</p>
-                        <a class="btn-primary" data-nav="categories" href="index.html?page=categories">Shop Now</a>
+                        <p class="hero-badge" data-i18n="hero_badge">New Arrivals</p>
+                        <h1 class="hero-title"><span data-i18n="hero_title_1">THRIFTED.</span><br><span data-i18n="hero_title_2">CURATED.</span></h1>
+                        <p class="hero-subtitle" data-i18n="hero_subtitle">Premium thrifted pieces. Handpicked for quality. Priced for you.</p>
+                        <a class="btn-primary" data-nav="categories" href="index.html?page=categories" data-i18n="hero_cta">Shop Now</a>
                     </div>
                     <div class="hero-image-wrapper">
                         <div class="hero-image-container">
@@ -903,19 +963,19 @@
                     <div class="features-grid">
                         <div class="feature-item">
                             <div class="feature-icon"><i data-lucide="truck" style="width: 24px; height: 24px;"></i></div>
-                            <div><h3 class="feature-title">Free Shipping</h3><p class="feature-desc">On all orders above ₹1499</p></div>
+                            <div><h3 class="feature-title" data-i18n="feat_free_shipping">Free Shipping</h3><p class="feature-desc" data-i18n="feat_free_shipping_desc">On all orders above 5,000 DA</p></div>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon"><i data-lucide="shield-check" style="width: 24px; height: 24px;"></i></div>
-                            <div><h3 class="feature-title">Premium Quality</h3><p class="feature-desc">Handpicked &amp; quality checked</p></div>
+                            <div><h3 class="feature-title" data-i18n="feat_premium">Premium Quality</h3><p class="feature-desc" data-i18n="feat_premium_desc">Handpicked &amp; quality checked</p></div>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon"><i data-lucide="rotate-ccw" style="width: 24px; height: 24px;"></i></div>
-                            <div><h3 class="feature-title">Easy Returns</h3><p class="feature-desc">Hassle free returns</p></div>
+                            <div><h3 class="feature-title" data-i18n="feat_returns">Easy Returns</h3><p class="feature-desc" data-i18n="feat_returns_desc">Hassle free returns</p></div>
                         </div>
                         <div class="feature-item">
                             <div class="feature-icon"><i data-lucide="headphones" style="width: 24px; height: 24px;"></i></div>
-                            <div><h3 class="feature-title">24/7 Support</h3><p class="feature-desc">We're here to help</p></div>
+                            <div><h3 class="feature-title" data-i18n="feat_support">24/7 Support</h3><p class="feature-desc" data-i18n="feat_support_desc">We're here to help</p></div>
                         </div>
                     </div>
                 </div>
@@ -924,7 +984,7 @@
             <!-- Shop by Category -->
             <section class="category-section">
                 <div class="container">
-                    <h2 class="section-title">SHOP BY CATEGORY</h2>
+                    <h2 class="section-title" data-i18n="section_categories">SHOP BY CATEGORY</h2>
                     <div class="categories-grid" id="homeCategoriesGrid"></div>
                 </div>
             </section>
@@ -932,7 +992,7 @@
             <!-- Trending Now -->
             <section class="trending-section">
                 <div class="container">
-                    <h2 class="section-title">TRENDING NOW</h2>
+                    <h2 class="section-title" data-i18n="section_trending">TRENDING NOW</h2>
                     <div class="products-grid home-products-grid" id="homeProductsGrid"></div>
                     <div class="pagination-dots">
                         <span class="dot active"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -948,27 +1008,27 @@
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&h=400&fit=crop" alt="New Drops" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
-                                <h3 class="promo-title">New Drops</h3>
-                                <p class="promo-subtitle">Every Week</p>
-                                <span class="btn-promo">Explore</span>
+                                <h3 class="promo-title" data-i18n="promo_new_drops">New Drops</h3>
+                                <p class="promo-subtitle" data-i18n="promo_every_week">Every Week</p>
+                                <span class="btn-promo" data-i18n="promo_explore">Explore</span>
                             </div>
                         </a>
                         <a class="promo-card" data-nav="categories" href="index.html?page=categories">
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop" alt="Premium Thrift" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
-                                <h3 class="promo-title">Premium Thrift</h3>
-                                <p class="promo-subtitle">Handpicked Pieces</p>
-                                <span class="btn-promo">Explore</span>
+                                <h3 class="promo-title" data-i18n="promo_premium">Premium Thrift</h3>
+                                <p class="promo-subtitle" data-i18n="promo_handpicked">Handpicked Pieces</p>
+                                <span class="btn-promo" data-i18n="promo_explore">Explore</span>
                             </div>
                         </a>
                         <a class="promo-card" data-nav="categories" href="index.html?page=categories">
                             <div class="promo-bg"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500&h=400&fit=crop" alt="Up to 50% Off" class="promo-image"></div>
                             <div class="promo-gradient"></div>
                             <div class="promo-content">
-                                <h3 class="promo-title">Up to 50% Off</h3>
-                                <p class="promo-subtitle">Limited Time Only</p>
-                                <span class="btn-promo">Shop Sale</span>
+                                <h3 class="promo-title" data-i18n="promo_sale">Up to 50% Off</h3>
+                                <p class="promo-subtitle" data-i18n="promo_limited">Limited Time Only</p>
+                                <span class="btn-promo" data-i18n="promo_shop_sale">Shop Sale</span>
                             </div>
                         </a>
                     </div>
@@ -980,7 +1040,7 @@
                 <div class="container">
                     <div class="instagram-header">
                         <div>
-                            <h2 class="instagram-title">Follow Us on Instagram</h2>
+                            <h2 class="instagram-title" data-i18n="instagram_title">Follow Us on Instagram</h2>
                             <p class="instagram-handle">@neon.thrift</p>
                         </div>
                         <button class="instagram-nav-btn" aria-label="Next">
@@ -1007,9 +1067,9 @@
         <section id="page-product" class="page">
             <div class="breadcrumb">
                 <div class="container">
-                    <a data-nav="home" href="index.html">Home</a>
+                    <a data-nav="home" href="index.html" data-i18n="crumb_home">Home</a>
                     <span class="sep">/</span>
-                    <a data-nav="categories" href="index.html?page=categories">Shop</a>
+                    <a data-nav="categories" href="index.html?page=categories" data-i18n="crumb_shop">Shop</a>
                     <span class="sep">/</span>
                     <a id="crumbCategory">Category</a>
                     <span class="sep">/</span>
@@ -1026,10 +1086,10 @@
             <section class="tabs-section">
                 <div class="container">
                     <div class="tabs-nav" id="tabsNav">
-                        <button class="tab-btn active" data-tab="details">Details</button>
-                        <button class="tab-btn" data-tab="materials">Materials</button>
-                        <button class="tab-btn" data-tab="size">Size &amp; Fit</button>
-                        <button class="tab-btn" data-tab="shipping">Shipping &amp; Returns</button>
+                        <button class="tab-btn active" data-tab="details" data-i18n="tab_details">Details</button>
+                        <button class="tab-btn" data-tab="materials" data-i18n="tab_materials">Materials</button>
+                        <button class="tab-btn" data-tab="size" data-i18n="tab_size">Size &amp; Fit</button>
+                        <button class="tab-btn" data-tab="shipping" data-i18n="tab_shipping">Shipping &amp; Returns</button>
                     </div>
                     <div class="tab-panel active" id="panel-details">
                         <div class="tab-content-grid">
@@ -1049,8 +1109,8 @@
             <section class="related-section">
                 <div class="container">
                     <div class="section-head">
-                        <h2>You May Also Like</h2>
-                        <span class="view-all" data-nav="categories" style="cursor:pointer">View All <i data-lucide="arrow-right"></i></span>
+                        <h2 data-i18n="related_title">You May Also Like</h2>
+                        <span class="view-all" data-nav="categories" style="cursor:pointer"><span data-i18n="view_all">View All</span> <i data-lucide="arrow-right"></i></span>
                     </div>
                     <div class="related-grid" id="relatedGrid"></div>
                 </div>
@@ -1063,17 +1123,17 @@
         <section id="page-categories" class="page">
             <div class="breadcrumb">
                 <div class="container">
-                    <a data-nav="home">Home</a>
+                    <a data-nav="home" data-i18n="crumb_home">Home</a>
                     <span class="sep">/</span>
-                    <span class="current" id="catCrumbCurrent">Shop</span>
+                    <span class="current" id="catCrumbCurrent" data-i18n="crumb_shop">Shop</span>
                 </div>
             </div>
 
             <section class="page-hero">
                 <div class="container">
-                    <p class="hero-badge" id="catHeroBadge">All Collections</p>
-                    <h1 id="catHeroTitle">Shop All Thrifted Pieces</h1>
-                    <p id="catHeroDesc">Premium thrifted culture, handpicked for quality and priced for you. Browse by category or explore the full collection.</p>
+                    <p class="hero-badge" id="catHeroBadge" data-i18n="cat_all_badge">All Collections</p>
+                    <h1 id="catHeroTitle" data-i18n="cat_all_title">Shop All Thrifted Pieces</h1>
+                    <p id="catHeroDesc" data-i18n="cat_all_desc">Premium thrifted culture, handpicked for quality and priced for you. Browse by category or explore the full collection.</p>
                 </div>
             </section>
 
@@ -1090,11 +1150,11 @@
                         <div class="toolbar-right">
                             <span class="results-count" id="catResultsCount">0 items</span>
                             <select class="sort-select" id="catSortSelect">
-                                <option value="featured">Featured</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                                <option value="rating">Top Rated</option>
-                                <option value="newest">Newest</option>
+                                <option value="featured" data-i18n="sort_featured">Featured</option>
+                                <option value="price-asc" data-i18n="sort_price_asc">Price: Low to High</option>
+                                <option value="price-desc" data-i18n="sort_price_desc">Price: High to Low</option>
+                                <option value="rating" data-i18n="sort_rating">Top Rated</option>
+                                <option value="newest" data-i18n="sort_newest">Newest</option>
                             </select>
                         </div>
                     </div>
@@ -1109,26 +1169,26 @@
         <section id="page-search" class="page">
             <div class="breadcrumb">
                 <div class="container">
-                    <a data-nav="home">Home</a>
+                    <a data-nav="home" data-i18n="crumb_home">Home</a>
                     <span class="sep">/</span>
-                    <span class="current">Search</span>
+                    <span class="current" data-i18n="crumb_search">Search</span>
                 </div>
             </div>
 
             <section class="page-hero search-hero">
                 <div class="container">
-                    <h1>Find Your Next Favorite Piece</h1>
-                    <p>Search across all thrifted collections. Filter by category, sort by price, and discover hidden gems.</p>
+                    <h1 data-i18n="search_title">Find Your Next Favorite Piece</h1>
+                    <p data-i18n="search_desc">Search across all thrifted collections. Filter by category, sort by price, and discover hidden gems.</p>
                     <form class="search-box" id="searchForm" autocomplete="off">
                         <div class="search-input-wrap">
                             <span class="search-icon"><i data-lucide="search"></i></span>
-                            <input type="text" class="search-input" id="searchInput" placeholder="Search for hoodies, tees, pants, accessories...">
-                            <button type="button" class="search-clear" id="searchClear" aria-label="Clear search"><i data-lucide="x"></i></button>
-                            <button type="submit" class="search-submit"><i data-lucide="search" style="width:16px;height:16px;"></i>Search</button>
+                            <input type="text" class="search-input" id="searchInput" data-i18n-ph="search_placeholder" placeholder="Search for hoodies, tees, pants, accessories...">
+                            <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" data-i18n-aria="search_clear"><i data-lucide="x"></i></button>
+                            <button type="submit" class="search-submit"><i data-lucide="search" style="width:16px;height:16px;"></i><span data-i18n="search_button">Search</span></button>
                         </div>
                     </form>
                     <div class="search-suggestions">
-                        <span class="suggestions-label">Popular:</span>
+                        <span class="suggestions-label" data-i18n="search_popular">Popular:</span>
                         <button class="suggestion-chip" data-q="hoodie">Hoodie</button>
                         <button class="suggestion-chip" data-q="tee">Tees</button>
                         <button class="suggestion-chip" data-q="cargo">Cargo</button>
@@ -1146,17 +1206,17 @@
                         <div class="toolbar-right">
                             <span class="results-count" id="searchResultsCount">0 items</span>
                             <select class="sort-select" id="searchSortSelect">
-                                <option value="featured">Featured</option>
-                                <option value="price-asc">Price: Low to High</option>
-                                <option value="price-desc">Price: High to Low</option>
-                                <option value="rating">Top Rated</option>
-                                <option value="newest">Newest</option>
+                                <option value="featured" data-i18n="sort_featured">Featured</option>
+                                <option value="price-asc" data-i18n="sort_price_asc">Price: Low to High</option>
+                                <option value="price-desc" data-i18n="sort_price_desc">Price: High to Low</option>
+                                <option value="rating" data-i18n="sort_rating">Top Rated</option>
+                                <option value="newest" data-i18n="sort_newest">Newest</option>
                             </select>
                         </div>
                     </div>
                     <div class="products-grid" id="searchResultsGrid"></div>
                     <div class="recent-section" id="recentSection" style="display:none;">
-                        <h3 class="recent-title"><i data-lucide="trending-up"></i>Trending Now</h3>
+                        <h3 class="recent-title"><i data-lucide="trending-up"></i><span data-i18n="search_trending_title">Trending Now</span></h3>
                         <div class="recent-grid" id="recentGrid"></div>
                     </div>
                 </div>
@@ -1170,7 +1230,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <h2 class="footer-logo" style="cursor:pointer"><a data-nav="home" href="index.html" style="color:inherit;text-decoration:none">NEON</a></h2>
-                    <p class="footer-desc">Thrifted culture. Curated style. Pieces with a past, made for the present.</p>
+                    <p class="footer-desc" data-i18n="footer_desc">Thrifted culture. Curated style. Pieces with a past, made for the present.</p>
                     <div class="social-links">
                         <a href="#" class="social-link" aria-label="Instagram"><i data-lucide="instagram" style="width: 16px; height: 16px;"></i></a>
                         <a href="#" class="social-link" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg></a>
@@ -1178,9 +1238,9 @@
                     </div>
                 </div>
                 <div>
-                    <h3 class="footer-column-title">Shop</h3>
+                    <h3 class="footer-column-title" data-i18n="footer_shop">Shop</h3>
                     <ul class="footer-links">
-                        <li><a class="footer-link" data-nav="categories" href="index.html?page=categories">All Products</a></li>
+                        <li><a class="footer-link" data-nav="categories" href="index.html?page=categories" data-i18n="footer_all_products">All Products</a></li>
                         <li><a class="footer-link" data-nav="categories" data-params='{"cat":"hoodies"}' href="index.html?page=categories&cat=hoodies">Hoodies</a></li>
                         <li><a class="footer-link" data-nav="categories" data-params='{"cat":"tshirts"}' href="index.html?page=categories&cat=tshirts">T-Shirts</a></li>
                         <li><a class="footer-link" data-nav="categories" data-params='{"cat":"pants"}' href="index.html?page=categories&cat=pants">Pants</a></li>
@@ -1188,27 +1248,27 @@
                     </ul>
                 </div>
                 <div>
-                    <h3 class="footer-column-title">Company</h3>
+                    <h3 class="footer-column-title" data-i18n="footer_company">Company</h3>
                     <ul class="footer-links">
-                        <li><a class="footer-link">About Us</a></li>
-                        <li><a class="footer-link">Contact Us</a></li>
-                        <li><a class="footer-link">Shipping &amp; Delivery</a></li>
-                        <li><a class="footer-link">Returns &amp; Refunds</a></li>
-                        <li><a class="footer-link">Privacy Policy</a></li>
+                        <li><a class="footer-link" data-i18n="footer_about">About Us</a></li>
+                        <li><a class="footer-link" data-i18n="footer_contact">Contact Us</a></li>
+                        <li><a class="footer-link" data-i18n="footer_shipping">Shipping &amp; Delivery</a></li>
+                        <li><a class="footer-link" data-i18n="footer_returns">Returns &amp; Refunds</a></li>
+                        <li><a class="footer-link" data-i18n="footer_privacy">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3 class="footer-column-title">Help</h3>
+                    <h3 class="footer-column-title" data-i18n="footer_help">Help</h3>
                     <ul class="footer-links">
-                        <li><a class="footer-link">FAQs</a></li>
-                        <li><a class="footer-link">Track Your Order</a></li>
-                        <li><a class="footer-link">Size Guide</a></li>
-                        <li><a class="footer-link" data-nav="search" href="index.html?page=search">Search</a></li>
+                        <li><a class="footer-link" data-i18n="footer_faqs">FAQs</a></li>
+                        <li><a class="footer-link" data-i18n="footer_track">Track Your Order</a></li>
+                        <li><a class="footer-link" data-i18n="footer_size_guide">Size Guide</a></li>
+                        <li><a class="footer-link" data-nav="search" href="index.html?page=search" data-i18n="footer_search">Search</a></li>
                     </ul>
                 </div>
             </div>
             <div class="copyright">
-                <p class="copyright-text">&copy; 2024 Neon. All rights reserved.</p>
+                <p class="copyright-text" data-i18n="footer_copyright">© 2024 Neon. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1216,7 +1276,7 @@
     <!-- Toast -->
     <div class="toast" id="toast">
         <i data-lucide="check-circle"></i>
-        <span id="toastMsg">Added to cart</span>
+        <span id="toastMsg" data-i18n="toast_added">Added to cart</span>
     </div>
 
     <!-- No-JS fallback message -->
@@ -1389,7 +1449,7 @@
                 var others = this.products.filter(function (p) { return p.category !== current.category && p.id !== current.id; });
                 return sameCat.concat(others).slice(0, limit);
             },
-            formatPrice: function (n) { return '₹' + Number(n).toLocaleString('en-IN'); },
+            formatPrice: function (n) { return formatDA(n); },
             discountPercent: function (price, original) {
                 if (!original || original <= price) return 0;
                 return Math.round(((original - price) / original) * 100);
@@ -1405,6 +1465,350 @@
                 }.bind(this));
             }
         };
+
+        /* ===================== I18N (English + Arabic) ===================== */
+        // Default language is English. Saved in localStorage.
+        // Numbers ALWAYS use Western digits (0-9) even in Arabic mode.
+        // Currency is Algerian Dinar (DA / دج).
+        var LANG_KEY = 'neon_lang';
+        var currentLang = (function () {
+            try { return localStorage.getItem(LANG_KEY) === 'ar' ? 'ar' : 'en'; }
+            catch (e) { return 'en'; }
+        })();
+
+        var I18N = {
+            en: {
+                _dir: 'ltr',
+                _currency: 'DA',
+                // Top banner
+                topBanner: 'FREE SHIPPING ON ALL ORDERS ABOVE 5,000 DA',
+                // Nav
+                nav_home: 'Home',
+                nav_shop: 'Shop',
+                nav_collections: 'Collections',
+                nav_about: 'About Us',
+                nav_contact: 'Contact',
+                nav_search: 'Search',
+                // Hero
+                hero_badge: 'New Arrivals',
+                hero_title_1: 'THRIFTED.',
+                hero_title_2: 'CURATED.',
+                hero_subtitle: 'Premium thrifted pieces. Handpicked for quality. Priced for you.',
+                hero_cta: 'Shop Now',
+                // Features
+                feat_free_shipping: 'Free Shipping',
+                feat_free_shipping_desc: 'On all orders above 5,000 DA',
+                feat_premium: 'Premium Quality',
+                feat_premium_desc: 'Handpicked & quality checked',
+                feat_returns: 'Easy Returns',
+                feat_returns_desc: 'Hassle free returns',
+                feat_support: '24/7 Support',
+                feat_support_desc: "We're here to help",
+                // Sections
+                section_categories: 'SHOP BY CATEGORY',
+                section_trending: 'TRENDING NOW',
+                // Categories
+                cat_all: 'All',
+                cat_all_badge: 'All Collections',
+                cat_all_title: 'Shop All Thrifted Pieces',
+                cat_all_desc: 'Premium thrifted culture, handpicked for quality and priced for you. Browse by category or explore the full collection.',
+                cat_badge: 'Category',
+                cat_items: 'items',
+                cat_item: 'item',
+                cat_empty_title: 'No products yet',
+                cat_empty_desc: 'New thrifted pieces are dropping soon.',
+                // Product cards
+                add_to_cart: 'Add to Cart',
+                best_seller: 'Best Seller',
+                new_arrival: 'New Arrival',
+                thrift_pick: 'Thrift Pick',
+                // Product detail
+                pd_badge_new: 'New Arrival',
+                pd_select_size: 'Select size',
+                pd_color: 'Color:',
+                pd_size: 'Size:',
+                pd_quantity: 'Quantity',
+                pd_size_guide: 'Size Guide',
+                pd_add_to_cart: 'Add to Cart',
+                pd_wishlist: 'Add to wishlist',
+                reviews: 'reviews',
+                off: 'OFF',
+                trust_free_title: 'Free Shipping',
+                trust_free_desc: 'On orders above 5,000 DA',
+                trust_returns_title: 'Easy Returns',
+                trust_returns_desc: '30-day return policy',
+                trust_secure_title: 'Secure Payment',
+                trust_secure_desc: '100% secure checkout',
+                // Tabs
+                tab_details: 'Details',
+                tab_materials: 'Materials',
+                tab_size: 'Size & Fit',
+                tab_shipping: 'Shipping & Returns',
+                tab_details_text: 'Crafted from high-quality materials, this piece delivers unmatched comfort and durability. The thoughtful design and premium construction make it a versatile staple for any wardrobe, ready to live in.',
+                // Related
+                related_title: 'You May Also Like',
+                view_all: 'View All',
+                // Search
+                search_title: 'Find Your Next Favorite Piece',
+                search_desc: 'Search across all thrifted collections. Filter by category, sort by price, and discover hidden gems.',
+                search_placeholder: 'Search for hoodies, tees, pants, accessories...',
+                search_button: 'Search',
+                search_popular: 'Popular:',
+                search_results_found: 'found',
+                search_no_results_title: 'No results found',
+                search_no_results_desc: 'Try a different keyword or browse our popular categories.',
+                search_trending_title: 'Trending Now',
+                search_in_catalog: 'items in catalog',
+                search_clear: 'Clear search',
+                // Breadcrumb
+                crumb_home: 'Home',
+                crumb_shop: 'Shop',
+                crumb_search: 'Search',
+                // Product not found
+                product_not_found: 'Product not found.',
+                browse_all: 'Browse all products',
+                // Sort
+                sort_featured: 'Featured',
+                sort_price_asc: 'Price: Low to High',
+                sort_price_desc: 'Price: High to Low',
+                sort_rating: 'Top Rated',
+                sort_newest: 'Newest',
+                // Toast
+                toast_added: 'Added to cart',
+                toast_added_wishlist: 'Added to wishlist',
+                toast_removed_wishlist: 'Removed from wishlist',
+                toast_select_size: 'Please select a size',
+                toast_coming_soon: 'Coming soon',
+                toast_cart_empty: 'Your cart is empty',
+                toast_cart_count: 'in cart',
+                toast_checkout_soon: 'Checkout coming soon',
+                toast_zoom: 'Use pinch / scroll to zoom',
+                // Footer
+                footer_desc: 'Thrifted culture. Curated style. Pieces with a past, made for the present.',
+                footer_shop: 'Shop',
+                footer_all_products: 'All Products',
+                footer_company: 'Company',
+                footer_about: 'About Us',
+                footer_contact: 'Contact Us',
+                footer_shipping: 'Shipping & Delivery',
+                footer_returns: 'Returns & Refunds',
+                footer_privacy: 'Privacy Policy',
+                footer_help: 'Help',
+                footer_faqs: 'FAQs',
+                footer_track: 'Track Your Order',
+                footer_size_guide: 'Size Guide',
+                footer_search: 'Search',
+                footer_copyright: '© 2024 Neon. All rights reserved.',
+                // Cart
+                cart_aria: 'Cart',
+                menu_aria: 'Menu',
+                close_menu: 'Close menu',
+                zoom_aria: 'Zoom image',
+                decrease_aria: 'Decrease',
+                increase_aria: 'Increase',
+                // Promo
+                promo_new_drops: 'New Drops',
+                promo_every_week: 'Every Week',
+                promo_explore: 'Explore',
+                promo_premium: 'Premium Thrift',
+                promo_handpicked: 'Handpicked Pieces',
+                promo_sale: 'Up to 50% Off',
+                promo_limited: 'Limited Time Only',
+                promo_shop_sale: 'Shop Sale',
+                // Instagram
+                instagram_title: 'Follow Us on Instagram',
+                // Shipping text (in tab)
+                shipping_text: 'Free shipping on orders above 5,000 DA across Algeria. Dispatched within 24 hours. Delivery in 3-5 business days to all 58 wilayas. 30-day easy returns.',
+                // Product-specific (kept in English since brand names)
+                // Categories names kept as-is (Hoodies, T-Shirts, etc.)
+            },
+            ar: {
+                _dir: 'rtl',
+                _currency: 'دج',
+                topBanner: 'شحن مجاني لجميع الطلبات فوق 5,000 دج',
+                nav_home: 'الرئيسية',
+                nav_shop: 'المتجر',
+                nav_collections: 'المجموعات',
+                nav_about: 'من نحن',
+                nav_contact: 'اتصل بنا',
+                nav_search: 'بحث',
+                hero_badge: 'وصل حديثاً',
+                hero_title_1: 'ملابس مستعملة.',
+                hero_title_2: 'منتقاة بعناية.',
+                hero_subtitle: 'قطع بريميوم مستعملة. منتقاة يدوياً للجودة. بأسعار تناسبك.',
+                hero_cta: 'تسوق الآن',
+                feat_free_shipping: 'شحن مجاني',
+                feat_free_shipping_desc: 'لجميع الطلبات فوق 5,000 دج',
+                feat_premium: 'جودة عالية',
+                feat_premium_desc: 'منتقى يدوياً ومفحوص',
+                feat_returns: 'إرجاع سهل',
+                feat_returns_desc: 'إرجاع بدون متاعب',
+                feat_support: 'دعم 24/7',
+                feat_support_desc: 'نحن هنا للمساعدة',
+                section_categories: 'تسوق حسب الفئة',
+                section_trending: 'الرائج الآن',
+                cat_all: 'الكل',
+                cat_all_badge: 'جميع المجموعات',
+                cat_all_title: 'تسوق جميع القطع المستعملة',
+                cat_all_desc: 'ثقافة الملابس المستعملة البريميوم، منتقاة يدوياً للجودة وبأسعار تناسبك. تصفح حسب الفئة أو استكشف المجموعة الكاملة.',
+                cat_badge: 'فئة',
+                cat_items: 'منتجات',
+                cat_item: 'منتج',
+                cat_empty_title: 'لا توجد منتجات بعد',
+                cat_empty_desc: 'قطع مستعملة جديدة قادمة قريباً.',
+                add_to_cart: 'أضف للسلة',
+                best_seller: 'الأكثر مبيعاً',
+                new_arrival: 'وصل حديثاً',
+                thrift_pick: 'قطعة نادرة',
+                pd_badge_new: 'وصل حديثاً',
+                pd_select_size: 'اختر المقاس',
+                pd_color: 'اللون:',
+                pd_size: 'المقاس:',
+                pd_quantity: 'الكمية',
+                pd_size_guide: 'دليل المقاسات',
+                pd_add_to_cart: 'أضف للسلة',
+                pd_wishlist: 'أضف للمفضلة',
+                reviews: 'تقييم',
+                off: 'خصم',
+                trust_free_title: 'شحن مجاني',
+                trust_free_desc: 'للطلبات فوق 5,000 دج',
+                trust_returns_title: 'إرجاع سهل',
+                trust_returns_desc: 'سياسة إرجاع خلال 30 يوم',
+                trust_secure_title: 'دفع آمن',
+                trust_secure_desc: 'دفع آمن 100%',
+                tab_details: 'التفاصيل',
+                tab_materials: 'الخامات',
+                tab_size: 'المقاس والقَوْس',
+                tab_shipping: 'الشحن والإرجاع',
+                tab_details_text: 'مصنوع من خامات عالية الجودة، هذه القطعة توفر راحة ومتانة لا مثيل لها. التصميم المدروس والجودة العالية تجعلها قطعة أساسية متعددة الاستخدامات لأي خزانة ملابس.',
+                related_title: 'قد يعجبك أيضاً',
+                view_all: 'عرض الكل',
+                search_title: 'اعثر على قطعتك المفضلة القادمة',
+                search_desc: 'ابحث في جميع المجموعات المستعملة. فلتر حسب الفئة، رتّب حسب السعر، واكتشف القطع النادرة.',
+                search_placeholder: 'ابحث عن هوديز، تيشيرتات، سراويل، إكسسوارات...',
+                search_button: 'بحث',
+                search_popular: 'الأكثر بحثاً:',
+                search_results_found: 'نتيجة',
+                search_no_results_title: 'لا توجد نتائج',
+                search_no_results_desc: 'جرّب كلمة بحث مختلفة أو تصفح الفئات الشائعة.',
+                search_trending_title: 'الرائج الآن',
+                search_in_catalog: 'منتج في الكتالوج',
+                search_clear: 'مسح البحث',
+                crumb_home: 'الرئيسية',
+                crumb_shop: 'المتجر',
+                crumb_search: 'بحث',
+                product_not_found: 'المنتج غير موجود.',
+                browse_all: 'تصفح جميع المنتجات',
+                sort_featured: 'مميز',
+                sort_price_asc: 'السعر: من الأقل للأعلى',
+                sort_price_desc: 'السعر: من الأعلى للأقل',
+                sort_rating: 'الأعلى تقييماً',
+                sort_newest: 'الأحدث',
+                toast_added: 'تمت الإضافة للسلة',
+                toast_added_wishlist: 'تمت الإضافة للمفضلة',
+                toast_removed_wishlist: 'تمت الإزالة من المفضلة',
+                toast_select_size: 'يرجى اختيار المقاس',
+                toast_coming_soon: 'قريباً',
+                toast_cart_empty: 'سلتك فارغة',
+                toast_cart_count: 'في السلة',
+                toast_checkout_soon: 'الدفع قريباً',
+                toast_zoom: 'استخدم القرص أو التمرير للتكبير',
+                footer_desc: 'ثقافة الملابس المستعملة. أسلوب منتقى. قطع لها ماضٍ، مصنوعة للحاضر.',
+                footer_shop: 'المتجر',
+                footer_all_products: 'جميع المنتجات',
+                footer_company: 'الشركة',
+                footer_about: 'من نحن',
+                footer_contact: 'اتصل بنا',
+                footer_shipping: 'الشحن والتوصيل',
+                footer_returns: 'الإرجاع والاسترداد',
+                footer_privacy: 'سياسة الخصوصية',
+                footer_help: 'المساعدة',
+                footer_faqs: 'الأسئلة الشائعة',
+                footer_track: 'تتبع طلبك',
+                footer_size_guide: 'دليل المقاسات',
+                footer_search: 'بحث',
+                footer_copyright: '© 2024 Neon. جميع الحقوق محفوظة.',
+                cart_aria: 'السلة',
+                menu_aria: 'القائمة',
+                close_menu: 'إغلاق القائمة',
+                zoom_aria: 'تكبير الصورة',
+                decrease_aria: 'إنقاص',
+                increase_aria: 'زيادة',
+                promo_new_drops: 'وصل حديثاً',
+                promo_every_week: 'كل أسبوع',
+                promo_explore: 'استكشف',
+                promo_premium: 'بريميوم مستعمل',
+                promo_handpicked: 'قطع منتقاة يدوياً',
+                promo_sale: 'خصم حتى 50%',
+                promo_limited: 'لفترة محدودة',
+                promo_shop_sale: 'تسوق التخفيضات',
+                instagram_title: 'تابعنا على إنستغرام',
+                shipping_text: 'شحن مجاني للطلبات فوق 5,000 دج إلى جميع ولايات الجزائر الـ 58. يُشحن خلال 24 ساعة. التوصيل خلال 3-5 أيام عمل. إرجاع سهل خلال 30 يوم.',
+            }
+        };
+
+        // t() — translation helper. Returns the string for the current language.
+        function t(key) {
+            var lang = I18N[currentLang] ? currentLang : 'en';
+            var val = I18N[lang][key];
+            if (val === undefined) val = I18N.en[key];
+            return val === undefined ? key : val;
+        }
+
+        // formatDA — format Algerian Dinar price.
+        // ALWAYS uses Western digits (0-9) regardless of language,
+        // by formatting with 'en-US' locale.
+        function formatDA(n) {
+            var numStr = Number(n).toLocaleString('en-US');
+            return currentLang === 'ar' ? (numStr + ' دج') : (numStr + ' DA');
+        }
+
+        // translateBadge — translate product badge to current language
+        function translateBadge(badge) {
+            if (!badge) return '';
+            var map = {
+                'Best Seller': t('best_seller'),
+                'New Arrival': t('new_arrival'),
+                'Thrift Pick': t('thrift_pick')
+            };
+            return map[badge] || badge;
+        }
+
+        function setLanguage(lang) {
+            if (lang !== 'ar' && lang !== 'en') lang = 'en';
+            currentLang = lang;
+            try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+            // Set <html> lang and dir attributes
+            var dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = dir;
+            // Update language toggle button label
+            var btn = document.getElementById('langToggle');
+            if (btn) {
+                btn.textContent = (lang === 'ar') ? 'EN' : 'ع';
+                btn.setAttribute('aria-label', (lang === 'ar') ? 'Switch to English' : 'التبديل إلى العربية');
+            }
+            // Re-translate static elements with [data-i18n]
+            var els = document.querySelectorAll('[data-i18n]');
+            for (var i = 0; i < els.length; i++) {
+                var key = els[i].getAttribute('data-i18n');
+                els[i].textContent = t(key);
+            }
+            // Re-translate placeholders
+            var phs = document.querySelectorAll('[data-i18n-ph]');
+            for (var j = 0; j < phs.length; j++) {
+                var pkey = phs[j].getAttribute('data-i18n-ph');
+                phs[j].setAttribute('placeholder', t(pkey));
+            }
+            // Re-translate aria-labels
+            var ars = document.querySelectorAll('[data-i18n-aria]');
+            for (var k = 0; k < ars.length; k++) {
+                var akey = ars[k].getAttribute('data-i18n-aria');
+                ars[k].setAttribute('aria-label', t(akey));
+            }
+            // Re-render current page to translate dynamic content
+            route();
+        }
 
         /* ===================== STATE ===================== */
         var state = {
@@ -1444,7 +1848,7 @@
             if (existing) existing.qty += qty;
             else cart.push({ id: p.id, name: p.name, price: p.price, image: p.images[0], size: size, color: color, qty: qty });
             setCart(cart);
-            showToast(p.name + ' added to cart');
+            showToast(p.name + ' — ' + t('toast_added'));
         }
 
         /* ===================== HELPERS ===================== */
@@ -1463,7 +1867,7 @@
             return href;
         }
 
-        function formatPrice(n) { return '₹' + Number(n).toLocaleString('en-IN'); }
+        function formatPrice(n) { return formatDA(n); }
         function discountPercent(price, original) {
             if (!original || original <= price) return 0;
             return Math.round(((original - price) / original) * 100);
@@ -1560,11 +1964,13 @@
             opts = opts || {};
             var discount = discountPercent(p.price, p.originalPrice);
             var tag = '';
-            if (p.isNew) tag = '<span class="product-tag new">New</span>';
-            else if (p.badge === 'Best Seller') tag = '<span class="product-tag">Best Seller</span>';
+            if (p.isNew) tag = '<span class="product-tag new">' + escapeHTML(t('new_arrival')) + '</span>';
+            else if (p.badge === 'Best Seller') tag = '<span class="product-tag">' + escapeHTML(t('best_seller')) + '</span>';
             else if (discount) tag = '<span class="product-tag sale">-' + discount + '%</span>';
             var nameHTML = opts.highlightQuery ? highlight(p.name, opts.highlightQuery) : escapeHTML(p.name);
             var catHTML = opts.highlightQuery ? highlight(p.categoryLabel, opts.highlightQuery) : escapeHTML(p.categoryLabel);
+            // rating count uses Western digits via toFixed and toString (always Latin)
+            var reviewsStr = Number(p.reviews).toString();
             return '' +
                 '<div class="product-card">' +
                     '<a class="product-image-wrapper" data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + buildHref('product', { id: p.id }) + '">' +
@@ -1575,12 +1981,12 @@
                     '<div class="product-info">' +
                         '<p class="product-cat">' + catHTML + '</p>' +
                         '<h3 class="product-name"><a data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + buildHref('product', { id: p.id }) + '">' + nameHTML + '</a></h3>' +
-                        '<div class="product-rating"><i data-lucide="star" style="fill:currentColor;"></i><span>' + p.rating.toFixed(1) + ' (' + p.reviews + ')</span></div>' +
+                        '<div class="product-rating"><i data-lucide="star" style="fill:currentColor;"></i><span>' + p.rating.toFixed(1) + ' (' + reviewsStr + ')</span></div>' +
                         '<div class="product-price-row">' +
                             '<span class="product-price">' + formatPrice(p.price) + '</span>' +
                             (p.originalPrice ? '<span class="product-price-orig">' + formatPrice(p.originalPrice) + '</span>' : '') +
                         '</div>' +
-                        '<button class="btn-add-cart" data-add-product="' + p.id + '">Add to Cart</button>' +
+                        '<button class="btn-add-cart" data-add-product="' + p.id + '">' + escapeHTML(t('add_to_cart')) + '</button>' +
                     '</div>' +
                 '</div>';
         }
@@ -1596,7 +2002,7 @@
                         '<div class="category-image-wrapper">' +
                             '<img src="' + cat.image + '" alt="' + escapeHTML(cat.name) + ' Collection" class="category-image">' +
                             '<div class="category-gradient"></div>' +
-                            '<div class="category-content"><h3 class="category-name">' + escapeHTML(cat.name) + '</h3><span class="btn-category">Shop Now</span></div>' +
+                            '<div class="category-content"><h3 class="category-name">' + escapeHTML(cat.name) + '</h3><span class="btn-category">' + escapeHTML(t('hero_cta')) + '</span></div>' +
                         '</div>' +
                     '</a>';
             }).join('');
@@ -1612,7 +2018,7 @@
                         '</a>' +
                         '<a data-nav="product" data-params=\'{"id":"' + p.id + '"}\' href="' + pHref + '"><h3 class="product-name">' + escapeHTML(p.name) + '</h3></a>' +
                         '<p class="product-price">' + formatPrice(p.price) + '</p>' +
-                        '<button class="btn-add-cart" data-add-product="' + p.id + '">Add to Cart</button>' +
+                        '<button class="btn-add-cart" data-add-product="' + p.id + '">' + escapeHTML(t('add_to_cart')) + '</button>' +
                     '</div>';
             }).join('');
             bindProductCardActions(prodGrid);
@@ -1662,22 +2068,22 @@
 
             var infoHTML =
                 '<div class="product-info">' +
-                    (p.badge ? '<span class="product-badge' + (p.isNew ? ' new' : '') + '">' + escapeHTML(p.badge) + '</span>' : '') +
+                    (p.badge ? '<span class="product-badge' + (p.isNew ? ' new' : '') + '">' + escapeHTML(translateBadge(p.badge)) + '</span>' : '') +
                     '<p class="product-category">' + escapeHTML(p.categoryLabel) + '</p>' +
                     '<h1 class="product-title">' + escapeHTML(p.name) + '</h1>' +
                     '<div class="rating-row">' +
                         '<span class="stars">' + renderStars(p.rating) + '</span>' +
-                        '<span class="rating-text"><strong>' + p.rating.toFixed(1) + '</strong> (' + p.reviews + ' reviews)</span>' +
+                        '<span class="rating-text"><strong>' + p.rating.toFixed(1) + '</strong> (' + Number(p.reviews).toString() + ' ' + escapeHTML(t('reviews')) + ')</span>' +
                     '</div>' +
                     '<div class="price-row">' +
                         '<span class="price-current">' + formatPrice(p.price) + '</span>' +
                         (p.originalPrice ? '<span class="price-original">' + formatPrice(p.originalPrice) + '</span>' : '') +
-                        (discount ? '<span class="price-discount">' + discount + '% OFF</span>' : '') +
+                        (discount ? '<span class="price-discount">' + discount + '% ' + escapeHTML(t('off')) + '</span>' : '') +
                     '</div>' +
                     '<p class="short-desc">' + escapeHTML(p.shortDesc) + '</p>' +
                     '<div class="divider"></div>' +
                     '<div class="selector-row">' +
-                        '<div class="selector-label"><span><span class="label">Color:</span> <span class="value" id="colorName">' + escapeHTML(p.colors[0].name) + '</span></span></div>' +
+                        '<div class="selector-label"><span><span class="label">' + escapeHTML(t('pd_color')) + '</span> <span class="value" id="colorName">' + escapeHTML(p.colors[0].name) + '</span></span></div>' +
                         '<div class="color-options" id="colorOptions">' +
                             p.colors.map(function (c, i) {
                                 return '<button class="color-swatch' + (i === 0 ? ' active' : '') + '" style="--swatch-color: ' + c.hex + ';" data-index="' + i + '" aria-label="' + escapeHTML(c.name) + '" title="' + escapeHTML(c.name) + '"></button>';
@@ -1686,15 +2092,15 @@
                     '</div>' +
                     '<div class="selector-row">' +
                         '<div class="selector-label">' +
-                            '<span><span class="label">Size:</span> <span class="value" id="sizeValue">Select size</span></span>' +
-                            '<span class="size-guide"><i data-lucide="ruler" style="width:14px;height:14px;"></i>Size Guide</span>' +
+                            '<span><span class="label">' + escapeHTML(t('pd_size')) + '</span> <span class="value" id="sizeValue">' + escapeHTML(t('pd_select_size')) + '</span></span>' +
+                            '<span class="size-guide"><i data-lucide="ruler" style="width:14px;height:14px;"></i>' + escapeHTML(t('pd_size_guide')) + '</span>' +
                         '</div>' +
                         '<div class="size-options" id="sizeOptions">' +
                             p.sizes.map(function (s) { return '<button class="size-btn" data-size="' + escapeHTML(s) + '">' + escapeHTML(s) + '</button>'; }).join('') +
                         '</div>' +
                     '</div>' +
                     '<div class="quantity-row">' +
-                        '<div class="quantity-label">Quantity</div>' +
+                        '<div class="quantity-label">' + escapeHTML(t('pd_quantity')) + '</div>' +
                         '<div class="quantity-control">' +
                             '<button id="qtyMinus" aria-label="Decrease"><i data-lucide="minus" style="width:16px;height:16px;"></i></button>' +
                             '<input type="text" id="qtyInput" value="1" readonly>' +
@@ -1702,28 +2108,26 @@
                         '</div>' +
                     '</div>' +
                     '<div class="action-row">' +
-                        '<button class="btn-cart" id="addToCartBtn"><i data-lucide="shopping-bag"></i>Add to Cart</button>' +
-                        '<button class="btn-wishlist" id="wishlistBtn" aria-label="Add to wishlist"><i data-lucide="heart"></i></button>' +
+                        '<button class="btn-cart" id="addToCartBtn"><i data-lucide="shopping-bag"></i>' + escapeHTML(t('pd_add_to_cart')) + '</button>' +
+                        '<button class="btn-wishlist" id="wishlistBtn" aria-label="' + escapeHTML(t('pd_wishlist')) + '"><i data-lucide="heart"></i></button>' +
                     '</div>' +
                     '<div class="trust-badges">' +
-                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="truck"></i></div><div><div class="trust-title">Free Shipping</div><div class="trust-desc">On orders above ₹1499</div></div></div>' +
-                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="rotate-ccw"></i></div><div><div class="trust-title">Easy Returns</div><div class="trust-desc">30-day return policy</div></div></div>' +
-                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="shield-check"></i></div><div><div class="trust-title">Secure Payment</div><div class="trust-desc">100% secure checkout</div></div></div>' +
+                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="truck"></i></div><div><div class="trust-title">' + escapeHTML(t('trust_free_title')) + '</div><div class="trust-desc">' + escapeHTML(t('trust_free_desc')) + '</div></div></div>' +
+                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="rotate-ccw"></i></div><div><div class="trust-title">' + escapeHTML(t('trust_returns_title')) + '</div><div class="trust-desc">' + escapeHTML(t('trust_returns_desc')) + '</div></div></div>' +
+                        '<div class="trust-item"><div class="trust-icon"><i data-lucide="shield-check"></i></div><div><div class="trust-title">' + escapeHTML(t('trust_secure_title')) + '</div><div class="trust-desc">' + escapeHTML(t('trust_secure_desc')) + '</div></div></div>' +
                     '</div>' +
                 '</div>';
 
             grid.innerHTML = galleryHTML + infoHTML;
 
             // Tabs content
-            document.getElementById('textDetails').textContent =
-                'Crafted from high-quality materials, the ' + p.name + ' delivers unmatched comfort and durability. ' +
-                'The thoughtful design and premium construction make it a versatile staple for any wardrobe, ready to live in.';
+            document.getElementById('textDetails').textContent = t('tab_details_text');
             document.getElementById('specsList').innerHTML = p.details.map(function (d) { return '<li><i data-lucide="check"></i> ' + escapeHTML(d) + '</li>'; }).join('');
             document.getElementById('detailImage').src = p.images[1] || p.images[0];
             document.getElementById('detailImage').alt = p.name + ' detail';
             document.getElementById('textMaterials').textContent = p.materials;
             document.getElementById('textSize').textContent = p.sizeFit;
-            document.getElementById('textShipping').textContent = p.shipping;
+            document.getElementById('textShipping').textContent = t('shipping_text');
 
             // Reset tabs to first
             var tabBtns = document.querySelectorAll('.tab-btn');
@@ -1801,7 +2205,7 @@
 
             // Add to cart
             document.getElementById('addToCartBtn').addEventListener('click', function () {
-                if (!state.selectedSize) { showToast('Please select a size'); return; }
+                if (!state.selectedSize) { showToast(t('toast_select_size')); return; }
                 addToCart(p, state.selectedSize, p.colors[state.selectedColor].name, state.quantity);
             });
 
@@ -1810,12 +2214,12 @@
             wbtn.addEventListener('click', function () {
                 state.wishlist = !state.wishlist;
                 wbtn.classList.toggle('active', state.wishlist);
-                showToast(state.wishlist ? 'Added to wishlist' : 'Removed from wishlist');
+                showToast(state.wishlist ? t('toast_added_wishlist') : t('toast_removed_wishlist'));
             });
 
             // Zoom (no-op feedback)
             document.getElementById('zoomBtn').addEventListener('click', function () {
-                showToast('Use pinch / scroll to zoom');
+                showToast(t('toast_zoom'));
             });
         }
 
@@ -1831,14 +2235,14 @@
             var desc = document.getElementById('catHeroDesc');
             var crumb = document.getElementById('catCrumbCurrent');
             if (cat === 'all') {
-                badge.textContent = 'All Collections';
-                title.textContent = 'Shop All Thrifted Pieces';
-                desc.textContent = 'Premium thrifted culture, handpicked for quality and priced for you. Browse by category or explore the full collection.';
-                crumb.textContent = 'Shop';
+                badge.textContent = t('cat_all_badge');
+                title.textContent = t('cat_all_title');
+                desc.textContent = t('cat_all_desc');
+                crumb.textContent = t('crumb_shop');
                 document.title = 'Shop & Collections | NEON - Thrifted Culture';
             } else {
                 var c = NEON_DATA.getCategoryById(cat);
-                badge.textContent = 'Category';
+                badge.textContent = t('cat_badge');
                 title.textContent = c.name;
                 desc.textContent = c.blurb;
                 crumb.textContent = c.name;
@@ -1851,7 +2255,7 @@
                 return '' +
                     '<a class="showcase-card" data-nav="categories" data-params=\'{"cat":"' + cat.id + '"}\' href="' + buildHref('categories', { cat: cat.id }) + '">' +
                         '<div class="showcase-image"><img src="' + cat.image + '" alt="' + escapeHTML(cat.name) + '"><div class="showcase-overlay"><h3>' + escapeHTML(cat.name) + '</h3></div></div>' +
-                        '<div class="showcase-meta"><span>' + escapeHTML(cat.blurb) + '</span><span class="count">' + count + ' items</span></div>' +
+                        '<div class="showcase-meta"><span>' + escapeHTML(cat.blurb) + '</span><span class="count">' + count + ' ' + escapeHTML(t('cat_items')) + '</span></div>' +
                     '</a>';
             }).join('');
 
@@ -1866,7 +2270,7 @@
         }
 
         function renderCatPills() {
-            var all = [{ id: 'all', name: 'All' }].concat(NEON_DATA.categories);
+            var all = [{ id: 'all', name: t('cat_all') }].concat(NEON_DATA.categories);
             var html = all.map(function (cat) {
                 var base = cat.id === 'all' ? NEON_DATA.products : NEON_DATA.getProductsByCategory(cat.id);
                 return '<button class="filter-pill' + (cat.id === state.catActive ? ' active' : '') + '" data-cat="' + cat.id + '">' + escapeHTML(cat.name) + '<span class="count">' + base.length + '</span></button>';
@@ -1885,9 +2289,9 @@
             var grid = document.getElementById('catProductsGrid');
             var products = NEON_DATA.getProductsByCategory(state.catActive);
             products = sortProducts(products, state.catSort);
-            document.getElementById('catResultsCount').textContent = products.length + ' item' + (products.length !== 1 ? 's' : '');
+            document.getElementById('catResultsCount').textContent = products.length + ' ' + escapeHTML(t(products.length === 1 ? 'cat_item' : 'cat_items'));
             if (products.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><div class="empty-icon"><i data-lucide="package-x"></i></div><h3>No products yet</h3><p>New thrifted pieces are dropping soon.</p></div>';
+                grid.innerHTML = '<div class="empty-state"><div class="empty-icon"><i data-lucide="package-x"></i></div><h3>' + escapeHTML(t('cat_empty_title')) + '</h3><p>' + escapeHTML(t('cat_empty_desc')) + '</p></div>';
                 return;
             }
             grid.innerHTML = products.map(function (p) { return productCardHTML(p); }).join('');
@@ -1919,7 +2323,7 @@
         }
 
         function renderSearchPills() {
-            var all = [{ id: 'all', name: 'All' }].concat(NEON_DATA.categories);
+            var all = [{ id: 'all', name: t('cat_all') }].concat(NEON_DATA.categories);
             var html = all.map(function (cat) {
                 var base = cat.id === 'all' ? NEON_DATA.products : NEON_DATA.getProductsByCategory(cat.id);
                 var filtered = state.searchQuery ? base.filter(function (p) { return matchesQuery(p, state.searchQuery); }) : base;
@@ -1952,7 +2356,7 @@
             if (!state.searchQuery && state.searchActive === 'all') {
                 grid.innerHTML = '';
                 recentSection.style.display = 'block';
-                countEl.textContent = NEON_DATA.products.length + ' items in catalog';
+                countEl.textContent = NEON_DATA.products.length + ' ' + escapeHTML(t('search_in_catalog'));
                 renderTrending();
                 return;
             }
@@ -1962,14 +2366,14 @@
             if (state.searchQuery) products = products.filter(function (p) { return matchesQuery(p, state.searchQuery); });
             products = sortProducts(products, state.searchSort);
 
-            countEl.textContent = products.length + ' item' + (products.length !== 1 ? 's' : '') + ' found' + (state.searchQuery ? ' for "' + state.searchQuery + '"' : '');
+            countEl.textContent = products.length + ' ' + escapeHTML(t(products.length === 1 ? 'cat_item' : 'cat_items')) + ' ' + escapeHTML(t('search_results_found')) + (state.searchQuery ? ' \u00ab' + state.searchQuery + '\u00bb' : '');
 
             if (products.length === 0) {
                 grid.innerHTML = '' +
                     '<div class="empty-state">' +
                         '<div class="empty-icon"><i data-lucide="search-x"></i></div>' +
-                        '<h3>No results found</h3>' +
-                        '<p>Try a different keyword or browse our popular categories.</p>' +
+                        '<h3>' + escapeHTML(t('search_no_results_title')) + '</h3>' +
+                        '<p>' + escapeHTML(t('search_no_results_desc')) + '</p>' +
                         '<div class="empty-suggestions">' +
                             ['hoodie','tee','cargo','vintage','oversized'].map(function (s) { return '<button class="empty-suggestion" data-q="' + s + '">' + s + '</button>'; }).join('') +
                         '</div>' +
@@ -2063,7 +2467,7 @@
                 e.stopPropagation();
                 var page = target.getAttribute('data-nav');
                 if (page === 'about' || page === 'contact') {
-                    showToast('Coming soon');
+                    showToast(t('toast_coming_soon'));
                     return;
                 }
                 var paramsStr = target.getAttribute('data-params');
@@ -2159,11 +2563,31 @@
             document.getElementById('cartBtn').addEventListener('click', function () {
                 var cart = getCart();
                 if (cart.length === 0) {
-                    showToast('Your cart is empty');
+                    showToast(t('toast_cart_empty'));
                 } else {
                     var total = cart.reduce(function (s, i) { return s + i.qty; }, 0);
-                    showToast(total + ' item' + (total !== 1 ? 's' : '') + ' in cart • Checkout coming soon');
+                    showToast(Number(total).toString() + ' ' + escapeHTML(t(total === 1 ? 'cat_item' : 'cat_items')) + ' ' + escapeHTML(t('toast_cart_count')) + ' \u2022 ' + escapeHTML(t('toast_checkout_soon')));
                 }
+            });
+        }
+
+        /* ===================== LANGUAGE TOGGLE ===================== */
+        function bindLanguageToggle() {
+            var btn = document.getElementById('langToggle');
+            var btnMobile = document.getElementById('langToggleMobile');
+            function toggle() {
+                var newLang = (currentLang === 'ar') ? 'en' : 'ar';
+                setLanguage(newLang);
+            }
+            if (btn) btn.addEventListener('click', toggle);
+            if (btnMobile) btnMobile.addEventListener('click', function () {
+                toggle();
+                // Close mobile nav after language switch
+                var nav = document.getElementById('mobileNav');
+                var overlay = document.getElementById('mobileNavOverlay');
+                if (nav) nav.classList.remove('active');
+                if (overlay) overlay.classList.remove('active');
+                document.body.style.overflow = '';
             });
         }
 
@@ -2176,8 +2600,11 @@
             bindMobileNav();
             bindCart();
             bindTabs();
-            // Initial route
-            route();
+            bindLanguageToggle();
+            // Apply saved language (set html lang/dir, translate static text, re-render)
+            // We call setLanguage BEFORE route() so the first render uses the correct lang.
+            // However, setLanguage calls route() internally, so we just call it once.
+            setLanguage(currentLang);
             // Handle browser back/forward
             window.addEventListener('popstate', function () {
                 route();
