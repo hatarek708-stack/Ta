@@ -386,15 +386,38 @@
         @media (min-width: 1024px) { .product-grid { grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: start; } }
 
         .gallery { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; }
-        @media (max-width: 640px) { .gallery { grid-template-columns: 1fr; gap: 0.75rem; } }
+        /* On mobile: main image first, thumbnails below (horizontal scroll) */
+        @media (max-width: 640px) {
+            .gallery {
+                grid-template-columns: 1fr;
+                grid-template-areas: "main" "thumbs";
+                gap: 0.75rem;
+            }
+            .gallery .main-image-wrapper { grid-area: main; }
+            .gallery .thumbnails { grid-area: thumbs; }
+        }
 
         .thumbnails { display: flex; flex-direction: column; gap: 0.625rem; }
-        @media (max-width: 640px) { .thumbnails { flex-direction: row; overflow-x: auto; padding-bottom: 0.25rem; } }
+        @media (max-width: 640px) {
+            .thumbnails {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 0.25rem;
+                gap: 0.5rem;
+                justify-content: flex-start;
+            }
+            .thumbnails::-webkit-scrollbar { height: 4px; }
+            .thumbnails::-webkit-scrollbar-thumb { background: var(--color-gray-300); border-radius: 2px; }
+        }
 
         .thumb {
             width: 80px; height: 100px; border-radius: 0.5rem; overflow: hidden;
             background-color: var(--color-gray-100); flex-shrink: 0;
             border: 2px solid transparent; transition: var(--transition);
+            cursor: pointer;
+        }
+        @media (max-width: 640px) {
+            .thumb { width: 64px; height: 80px; }
         }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
         .thumb.active { border-color: var(--color-black); }
@@ -404,7 +427,53 @@
             position: relative; border-radius: 0.75rem; overflow: hidden;
             background-color: var(--color-gray-100); aspect-ratio: 4/5;
         }
-        .main-image { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
+        .main-image {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            cursor: zoom-in;
+        }
+        .main-image.zoomed { cursor: zoom-out; transform: scale(2); transform-origin: center; }
+
+        /* Zoom overlay (modal-style image viewer) */
+        .zoom-overlay {
+            position: fixed; inset: 0; background-color: rgba(0,0,0,0.92);
+            z-index: 9999; display: none; align-items: center; justify-content: center;
+            padding: 2rem; cursor: zoom-out;
+            opacity: 0; transition: opacity 0.25s ease;
+        }
+        .zoom-overlay.active { display: flex; opacity: 1; }
+        .zoom-overlay img {
+            max-width: 95vw; max-height: 90vh; object-fit: contain;
+            border-radius: 0.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .zoom-close {
+            position: absolute; top: 1rem; right: 1rem;
+            width: 44px; height: 44px; border-radius: 9999px;
+            background-color: rgba(255,255,255,0.15); color: var(--color-white);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .zoom-close:hover { background-color: rgba(255,255,255,0.25); }
+        .zoom-close svg { width: 22px; height: 22px; }
+        .zoom-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 48px; height: 48px; border-radius: 9999px;
+            background-color: rgba(255,255,255,0.15); color: var(--color-white);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+        }
+        .zoom-nav:hover { background-color: rgba(255,255,255,0.25); }
+        .zoom-nav svg { width: 22px; height: 22px; }
+        .zoom-prev { left: 1rem; }
+        .zoom-next { right: 1rem; }
+        [dir="rtl"] .zoom-prev { left: auto; right: 1rem; }
+        [dir="rtl"] .zoom-next { right: auto; left: 1rem; }
+        .zoom-counter {
+            position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+            color: var(--color-white); font-size: 0.875rem; font-weight: 500;
+            background-color: rgba(0,0,0,0.5); padding: 0.375rem 0.875rem; border-radius: 9999px;
+        }
+
         .zoom-btn {
             position: absolute; bottom: 1rem; right: 1rem;
             width: 40px; height: 40px; border-radius: 9999px;
@@ -413,6 +482,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         .zoom-btn:hover { background-color: var(--color-gray-100); }
+        [dir="rtl"] .zoom-btn { right: auto; left: 1rem; }
 
         .product-badge {
             display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px;
@@ -900,7 +970,6 @@
         [dir="rtl"] .product-tag { left: auto; right: 0.625rem; }
         [dir="rtl"] .product-quick { right: auto; left: 0.625rem; }
         [dir="rtl"] .related-wishlist { right: auto; left: 0.625rem; }
-        [dir="rtl"] .zoom-btn { right: auto; left: 1rem; }
         [dir="rtl"] .search-input-wrap .search-icon { left: auto; right: 1rem; }
         [dir="rtl"] .search-input { padding: 1.125rem 3rem 1.125rem 1rem; text-align: right; }
         [dir="rtl"] .search-clear { padding: 0.75rem 1rem; }
@@ -985,111 +1054,226 @@
         [dir="rtl"] .pagination-dots { direction: rtl; }
         [dir="rtl"] .logo { direction: ltr; }
 
-        /* ===== ORDER SUMMARY CARD (on product detail page) ===== */
+        /* ===== DIRECT ORDER CARD (full checkout form) ===== */
+        .checkout-section {
+            padding: 3rem 0 4rem;
+            background-color: var(--color-gray-50);
+        }
         .order-summary-card {
             background-color: var(--color-white);
             border: 1px solid var(--color-gray-100);
             border-radius: 1rem;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            position: sticky;
-            top: 100px;
+            padding: 2rem;
+            max-width: 720px;
+            margin: 0 auto;
         }
+        @media (max-width: 640px) { .order-summary-card { padding: 1.25rem; } }
 
         .order-summary-header {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding-bottom: 1rem;
+            padding-bottom: 1.25rem;
             border-bottom: 1px solid var(--color-gray-100);
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
         .order-summary-header svg {
-            width: 20px;
-            height: 20px;
-            color: var(--color-gray-900);
+            width: 22px; height: 22px; color: var(--color-gray-900);
         }
         .order-summary-header h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--color-gray-900);
+            font-size: 1.25rem; font-weight: 700; color: var(--color-gray-900);
         }
 
+        /* Product item summary inside the card */
         .order-item {
             display: flex;
             gap: 0.875rem;
-            padding: 0.75rem 0;
+            padding: 0.75rem;
+            background-color: var(--color-gray-50);
+            border-radius: 0.625rem;
+            margin-bottom: 1.5rem;
         }
         .order-item-img {
-            width: 72px;
-            height: 90px;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            background-color: var(--color-gray-100);
-            flex-shrink: 0;
+            width: 72px; height: 90px;
+            border-radius: 0.5rem; overflow: hidden;
+            background-color: var(--color-gray-100); flex-shrink: 0;
         }
         .order-item-img img { width: 100%; height: 100%; object-fit: cover; }
         .order-item-info { flex: 1; min-width: 0; }
         .order-item-name {
-            font-size: 0.9375rem;
-            font-weight: 600;
+            font-size: 0.9375rem; font-weight: 600;
             color: var(--color-gray-900);
-            margin-bottom: 0.25rem;
-            line-height: 1.3;
+            margin-bottom: 0.25rem; line-height: 1.3;
         }
         .order-item-variant {
-            font-size: 0.8125rem;
-            color: var(--color-gray-500);
+            font-size: 0.8125rem; color: var(--color-gray-500);
             margin-bottom: 0.125rem;
         }
         .order-item-qty {
-            display: inline-flex;
-            align-items: center;
+            display: inline-flex; align-items: center;
             border: 1px solid var(--color-gray-300);
-            border-radius: 0.375rem;
-            overflow: hidden;
+            border-radius: 0.375rem; overflow: hidden;
             margin-top: 0.5rem;
         }
         .order-item-qty button {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
             color: var(--color-gray-700);
         }
         .order-item-qty button:hover { background-color: var(--color-gray-100); color: var(--color-black); }
         .order-item-qty span {
-            min-width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8125rem;
-            font-weight: 600;
-            color: var(--color-gray-900);
+            min-width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8125rem; font-weight: 600; color: var(--color-gray-900);
         }
         .order-item-price {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.25rem;
-            flex-shrink: 0;
+            display: flex; flex-direction: column;
+            align-items: flex-end; gap: 0.25rem; flex-shrink: 0;
         }
         .order-item-price .current {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--color-gray-900);
-            direction: ltr;
+            font-size: 1rem; font-weight: 700;
+            color: var(--color-gray-900); direction: ltr;
         }
         .order-item-price .original {
-            font-size: 0.75rem;
-            color: var(--color-gray-400);
-            text-decoration: line-through;
-            direction: ltr;
+            font-size: 0.75rem; color: var(--color-gray-400);
+            text-decoration: line-through; direction: ltr;
         }
 
+        /* Form sections */
+        .form-section { margin-bottom: 1.75rem; }
+        .form-section:last-of-type { margin-bottom: 0; }
+        .form-section-header {
+            display: flex; align-items: center; gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .form-section-header svg {
+            width: 20px; height: 20px;
+            color: var(--color-gray-900); flex-shrink: 0;
+        }
+        .form-section-header h4 {
+            font-size: 1rem; font-weight: 700; color: var(--color-gray-900);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.875rem;
+            margin-bottom: 0.875rem;
+        }
+        .form-row.single { grid-template-columns: 1fr; }
+        .form-field { display: flex; flex-direction: column; }
+        .form-field label {
+            font-size: 0.8125rem; font-weight: 500;
+            color: var(--color-gray-700);
+            margin-bottom: 0.375rem;
+        }
+        .form-field label .req { color: #ef4444; margin-left: 2px; }
+        .form-input-wrap {
+            position: relative;
+            display: flex; align-items: center;
+        }
+        .form-input-wrap > svg {
+            position: absolute;
+            left: 0.75rem;
+            width: 16px; height: 16px;
+            color: var(--color-gray-400);
+            pointer-events: none;
+            z-index: 1;
+        }
+        [dir="rtl"] .form-input-wrap > svg { left: auto; right: 0.75rem; }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 0.875rem 0.75rem 2.25rem;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 0.5rem;
+            background-color: var(--color-white);
+            font-size: 0.875rem;
+            color: var(--color-gray-900);
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        [dir="rtl"] .form-input, [dir="rtl"] .form-select, [dir="rtl"] .form-textarea {
+            padding: 0.75rem 2.25rem 0.75rem 0.875rem;
+            text-align: right;
+        }
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+            padding-top: 0.75rem;
+        }
+        .form-input::placeholder, .form-textarea::placeholder { color: var(--color-gray-400); }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--color-black);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            padding-right: 2.25rem;
+            cursor: pointer;
+        }
+        [dir="rtl"] .form-select {
+            background-position: left 0.75rem center;
+            padding-right: 0.875rem;
+            padding-left: 2.25rem;
+        }
+
+        /* Payment options */
+        .payment-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.875rem;
+        }
+        @media (max-width: 640px) { .payment-options { grid-template-columns: 1fr; } }
+        .payment-option {
+            position: relative;
+            border: 2px solid var(--color-gray-200);
+            border-radius: 0.625rem;
+            padding: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: var(--color-white);
+        }
+        .payment-option:hover { border-color: var(--color-gray-400); }
+        .payment-option.selected {
+            border-color: var(--color-black);
+            background-color: var(--color-gray-50);
+        }
+        .payment-option-radio {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 18px; height: 18px;
+            border-radius: 9999px;
+            border: 2px solid var(--color-gray-300);
+            background-color: var(--color-white);
+        }
+        [dir="rtl"] .payment-option-radio { right: auto; left: 0.75rem; }
+        .payment-option.selected .payment-option-radio {
+            border-color: var(--color-black);
+            background-color: var(--color-black);
+            box-shadow: inset 0 0 0 3px var(--color-white);
+        }
+        .payment-option-icon {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .payment-option-icon svg { width: 24px; height: 24px; }
+        .payment-option-title {
+            font-size: 0.875rem; font-weight: 700;
+            color: var(--color-gray-900); margin-bottom: 0.125rem;
+        }
+        .payment-option-sub {
+            font-size: 0.75rem; color: var(--color-gray-500);
+        }
+
+        /* Order totals */
         .order-totals {
             padding-top: 1rem;
             margin-top: 0.5rem;
@@ -1115,83 +1299,221 @@
         .order-total-row.grand .label { color: var(--color-gray-900); font-weight: 700; }
         .order-total-row.grand .value { color: var(--color-gray-900); font-size: 1.25rem; }
 
-        .order-trust {
-            margin-top: 1.25rem;
-            padding: 0.875rem;
-            background-color: var(--color-gray-50);
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
-        }
-        .order-trust svg {
-            width: 22px;
-            height: 22px;
-            color: #2e7d32;
-            flex-shrink: 0;
-        }
-        .order-trust-text { flex: 1; }
-        .order-trust-title {
-            font-size: 0.8125rem;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-        .order-trust-sub {
-            font-size: 0.6875rem;
-            color: var(--color-gray-500);
-            margin-top: 0.125rem;
-        }
-
-        .btn-checkout {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Submit button */
+        .btn-submit-order {
+            display: flex; align-items: center; justify-content: center;
             gap: 0.5rem;
             width: 100%;
             background-color: var(--color-black);
             color: var(--color-white);
-            padding: 0.875rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.9375rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 1.25rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.625rem;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
             transition: var(--transition);
         }
-        .btn-checkout:hover { background-color: var(--color-gray-800); }
-        .btn-checkout svg { width: 18px; height: 18px; }
+        .btn-submit-order:hover { background-color: var(--color-gray-800); }
+        .btn-submit-order:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-submit-order svg { width: 18px; height: 18px; }
 
         .order-terms {
-            font-size: 0.6875rem;
+            font-size: 0.75rem;
             color: var(--color-gray-500);
             text-align: center;
-            margin-top: 0.625rem;
-            line-height: 1.4;
+            margin-top: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Trust badge */
+        .order-trust {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background-color: var(--color-gray-50);
+            border-radius: 0.625rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .order-trust svg {
+            width: 24px; height: 24px;
+            color: #2e7d32; flex-shrink: 0;
+        }
+        .order-trust-text { flex: 1; }
+        .order-trust-title {
+            font-size: 0.875rem; font-weight: 700; color: var(--color-gray-900);
+        }
+        .order-trust-sub {
+            font-size: 0.75rem; color: var(--color-gray-500); margin-top: 0.125rem;
         }
 
         /* RTL for order summary */
         [dir="rtl"] .order-item { flex-direction: row-reverse; }
         [dir="rtl"] .order-item-price { align-items: flex-start; }
         [dir="rtl"] .order-trust { flex-direction: row-reverse; text-align: right; }
-        [dir="rtl"] .btn-checkout { flex-direction: row-reverse; }
+        [dir="rtl"] .btn-submit-order { flex-direction: row-reverse; }
         [dir="rtl"] .order-total-row { flex-direction: row-reverse; }
         [dir="rtl"] .order-summary-header { flex-direction: row-reverse; }
+        [dir="rtl"] .form-section-header { flex-direction: row-reverse; }
+        [dir="rtl"] .form-field label { text-align: right; }
+        [dir="rtl"] .payment-option { text-align: right; }
+        [dir="rtl"] .payment-option-icon { margin-left: auto; margin-right: 0; }
 
-        /* Layout: product detail + order summary side by side on large screens */
-        @media (min-width: 1280px) {
-            .product-detail-wrap {
-                display: grid;
-                grid-template-columns: 1fr 360px;
-                gap: 2rem;
-                align-items: start;
-            }
-            .product-grid { grid-column: 1; }
-            .order-summary-card { grid-column: 2; }
+        /* ===== CART DRAWER ===== */
+        .cart-overlay {
+            position: fixed; inset: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 200; opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
         }
-        @media (max-width: 1279px) {
-            .order-summary-card { margin-top: 2rem; }
+        .cart-overlay.active { display: block; opacity: 1; }
+        .cart-drawer {
+            position: fixed; top: 0; right: -100%;
+            width: 100%; max-width: 420px;
+            height: 100vh;
+            background-color: var(--color-white);
+            z-index: 201;
+            transition: right 0.3s ease;
+            display: flex; flex-direction: column;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.1);
         }
+        [dir="rtl"] .cart-drawer { right: auto; left: -100%; transition: left 0.3s ease; box-shadow: 4px 0 24px rgba(0,0,0,0.1); }
+        .cart-drawer.active { right: 0; }
+        [dir="rtl"] .cart-drawer.active { right: auto; left: 0; }
+        @media (max-width: 480px) { .cart-drawer { max-width: 100%; } }
+
+        .cart-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+        .cart-header h3 {
+            font-size: 1.125rem; font-weight: 700; color: var(--color-gray-900);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .cart-header svg { width: 22px; height: 22px; }
+        .cart-close {
+            width: 36px; height: 36px; border-radius: 9999px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-gray-700);
+        }
+        .cart-close:hover { background-color: var(--color-gray-100); }
+        .cart-close svg { width: 20px; height: 20px; }
+
+        .cart-body {
+            flex: 1; overflow-y: auto;
+            padding: 1rem 1.5rem;
+        }
+        .cart-empty {
+            text-align: center; padding: 3rem 1rem;
+            color: var(--color-gray-500);
+        }
+        .cart-empty svg {
+            width: 48px; height: 48px;
+            margin: 0 auto 1rem;
+            color: var(--color-gray-300);
+        }
+        .cart-empty h4 {
+            font-size: 1rem; font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.5rem;
+        }
+        .cart-empty p { font-size: 0.875rem; }
+
+        .cart-item {
+            display: flex; gap: 0.875rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-img {
+            width: 64px; height: 80px;
+            border-radius: 0.5rem; overflow: hidden;
+            background-color: var(--color-gray-100); flex-shrink: 0;
+        }
+        .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+        .cart-item-info { flex: 1; min-width: 0; }
+        .cart-item-name {
+            font-size: 0.875rem; font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+        .cart-item-variant {
+            font-size: 0.75rem; color: var(--color-gray-500);
+            margin-bottom: 0.375rem;
+        }
+        .cart-item-controls {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .cart-item-qty {
+            display: inline-flex; align-items: center;
+            border: 1px solid var(--color-gray-300);
+            border-radius: 0.375rem; overflow: hidden;
+        }
+        .cart-item-qty button {
+            width: 26px; height: 26px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-gray-700);
+        }
+        .cart-item-qty button:hover { background-color: var(--color-gray-100); color: var(--color-black); }
+        .cart-item-qty span {
+            min-width: 28px; height: 26px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 600; color: var(--color-gray-900);
+        }
+        .cart-item-price {
+            font-size: 0.875rem; font-weight: 700;
+            color: var(--color-gray-900); direction: ltr;
+        }
+        .cart-item-remove {
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--color-gray-400);
+            border-radius: 0.375rem;
+            flex-shrink: 0;
+        }
+        .cart-item-remove:hover { color: #ef4444; background-color: #fef2f2; }
+        .cart-item-remove svg { width: 16px; height: 16px; }
+
+        .cart-footer {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid var(--color-gray-100);
+            background-color: var(--color-white);
+        }
+        .cart-total-row {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .cart-total-row .label { color: var(--color-gray-600); }
+        .cart-total-row .value { color: var(--color-gray-900); font-weight: 500; direction: ltr; }
+        .cart-total-row.grand {
+            padding-top: 0.625rem;
+            margin-top: 0.5rem;
+            border-top: 1px solid var(--color-gray-100);
+            font-size: 1.125rem; font-weight: 700;
+        }
+        .cart-total-row.grand .label { color: var(--color-gray-900); font-weight: 700; }
+        .cart-total-row.grand .value { color: var(--color-gray-900); font-size: 1.25rem; }
+        .btn-cart-checkout {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 0.875rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9375rem; font-weight: 600;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+        .btn-cart-checkout:hover { background-color: var(--color-gray-800); }
+        .btn-cart-checkout svg { width: 18px; height: 18px; }
+        [dir="rtl"] .btn-cart-checkout { flex-direction: row-reverse; }
+        [dir="rtl"] .cart-item { flex-direction: row-reverse; }
+        [dir="rtl"] .cart-total-row { flex-direction: row-reverse; }
+        [dir="rtl"] .cart-header h3 { flex-direction: row-reverse; }
     </style>
 </head>
 <body>
@@ -1397,12 +1719,7 @@
 
             <section class="product-detail">
                 <div class="container">
-                    <div class="product-detail-wrap">
-                        <div class="product-grid" id="productGrid"></div>
-                        <div class="order-summary-card" id="orderSummaryCard">
-                            <!-- Filled by JS -->
-                        </div>
-                    </div>
+                    <div class="product-grid" id="productGrid"></div>
                 </div>
             </section>
 
@@ -1426,6 +1743,15 @@
                     <div class="tab-panel" id="panel-materials"><p class="tab-text" id="textMaterials" style="max-width: 48rem;"></p></div>
                     <div class="tab-panel" id="panel-size"><p class="tab-text" id="textSize" style="max-width: 48rem;"></p></div>
                     <div class="tab-panel" id="panel-shipping"><p class="tab-text" id="textShipping" style="max-width: 48rem;"></p></div>
+                </div>
+            </section>
+
+            <!-- Direct Order Card (full checkout form) -->
+            <section class="checkout-section">
+                <div class="container">
+                    <div class="order-summary-card" id="orderSummaryCard">
+                        <!-- Filled by JS -->
+                    </div>
                 </div>
             </section>
 
@@ -1601,6 +1927,41 @@
         <i data-lucide="check-circle"></i>
         <span id="toastMsg" data-i18n="toast_added">Added to cart</span>
     </div>
+
+    <!-- Image Zoom Overlay -->
+    <div class="zoom-overlay" id="zoomOverlay">
+        <button class="zoom-close" id="zoomClose" aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <button class="zoom-nav zoom-prev" id="zoomPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <img id="zoomImage" src="" alt="Zoomed product image">
+        <button class="zoom-nav zoom-next" id="zoomNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="zoom-counter" id="zoomCounter">1 / 4</div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+        <div class="cart-header">
+            <h3>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                <span id="cartDrawerTitle" data-i18n="cart_title">Your Cart</span>
+            </h3>
+            <button class="cart-close" id="cartClose" aria-label="Close cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="cart-body" id="cartBody">
+            <!-- Filled by JS -->
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display:none;">
+            <!-- Filled by JS (totals + checkout button) -->
+        </div>
+    </aside>
 
     <!-- No-JS fallback message -->
     <noscript>
@@ -1957,6 +2318,41 @@
                 os_trust_sub: 'Safe delivery guaranteed • Protected value',
                 os_terms: 'By clicking checkout, you agree to our Terms & Conditions and Privacy Policy.',
                 os_avail: 'In Stock',
+                // Direct order form
+                of_personal_info: 'Personal Information',
+                of_full_name: 'Full Name',
+                of_full_name_ph: 'Enter your full name',
+                of_phone: 'Phone Number',
+                of_phone_ph: '05 12 34 56 78',
+                of_email: 'Email (Optional)',
+                of_email_ph: 'example@email.com',
+                of_delivery: 'Delivery Address',
+                of_wilaya: 'Wilaya (Province)',
+                of_wilaya_ph: 'Select wilaya',
+                of_baladiya: 'Baladiya (Municipality)',
+                of_baladiya_ph: 'Select baladiya',
+                of_address: 'Detailed Address',
+                of_address_ph: 'Neighborhood, street, building number, landmark...',
+                of_payment: 'Payment Method',
+                of_cod: 'Cash on Delivery',
+                of_cod_sub: 'Pay cash when you receive your order',
+                of_card: 'Electronic Payment',
+                of_card_sub: 'Visa, MasterCard',
+                of_notes: 'Additional Notes (Optional)',
+                of_notes_ph: 'Write your notes in detail here...',
+                of_submit: 'Confirm Order',
+                of_required: 'Please fill in all required fields',
+                of_order_success: 'Order placed successfully! We will contact you soon.',
+                // Cart
+                cart_title: 'Your Cart',
+                cart_empty: 'Your cart is empty',
+                cart_empty_desc: 'Add some products to get started',
+                cart_subtotal: 'Subtotal',
+                cart_shipping: 'Shipping',
+                cart_free: 'FREE',
+                cart_total: 'Total',
+                cart_checkout: 'Checkout',
+                cart_remove: 'Remove',
                 // Product-specific (kept in English since brand names)
                 // Categories names kept as-is (Hoodies, T-Shirts, etc.)
             },
@@ -2097,6 +2493,41 @@
                 os_trust_sub: 'يصلك بالسلامة • قيمة مضمونة',
                 os_terms: 'بالنقر على إتمام الطلب أنت توافق على الشروط والأحكام وسياسة الخصوصية.',
                 os_avail: 'متوفر',
+                // Direct order form
+                of_personal_info: 'معلوماتك الشخصية',
+                of_full_name: 'الاسم الكامل',
+                of_full_name_ph: 'أدخل اسمك الكامل',
+                of_phone: 'رقم الهاتف',
+                of_phone_ph: '05 12 34 56 78',
+                of_email: 'البريد الإلكتروني (اختياري)',
+                of_email_ph: 'example@email.com',
+                of_delivery: 'عنوان التوصيل',
+                of_wilaya: 'الولاية',
+                of_wilaya_ph: 'اختر الولاية',
+                of_baladiya: 'البلدية / الدائرة',
+                of_baladiya_ph: 'اختر البلدية',
+                of_address: 'العنوان التفصيلي',
+                of_address_ph: 'حي، شارع، رقم المبنى، قرب معلم...',
+                of_payment: 'طريقة الدفع',
+                of_cod: 'الدفع عند الاستلام',
+                of_cod_sub: 'ادفع نقداً عند استلام طلبك',
+                of_card: 'الدفع الإلكتروني',
+                of_card_sub: 'فيزا، ماستركارد',
+                of_notes: 'ملاحظات إضافية (اختياري)',
+                of_notes_ph: 'اكتب ملاحظاتك بالتفصيل هنا...',
+                of_submit: 'تأكيد الطلب',
+                of_required: 'يرجى ملء جميع الحقول المطلوبة',
+                of_order_success: 'تم تأكيد طلبك بنجاح! سنتواصل معك قريباً.',
+                // Cart
+                cart_title: 'سلة المشتريات',
+                cart_empty: 'سلتك فارغة',
+                cart_empty_desc: 'أضف بعض المنتجات للبدء',
+                cart_subtotal: 'المجموع الفرعي',
+                cart_shipping: 'الشحن',
+                cart_free: 'مجاني',
+                cart_total: 'الإجمالي',
+                cart_checkout: 'إتمام الطلب',
+                cart_remove: 'حذف',
             }
         };
 
@@ -2183,6 +2614,9 @@
             quantity: 1,
             wishlist: false,
             currentImage: 0,
+            zoomIndex: 0,
+            // checkout form
+            checkoutData: { fullName: '', phone: '', email: '', wilaya: '', baladiya: '', address: '', payment: 'cod', notes: '' },
             // categories page
             catActive: 'all',
             catSort: 'featured',
@@ -2519,34 +2953,35 @@
             renderOrderSummary(p);
         }
 
-        /* ===================== ORDER SUMMARY CARD ===================== */
+        /* ===================== DIRECT ORDER CARD ===================== */
         function renderOrderSummary(p) {
             var card = document.getElementById('orderSummaryCard');
             if (!card || !p) return;
 
-            var discount = discountPercent(p.price, p.originalPrice);
-            var savings = p.originalPrice ? (p.originalPrice - p.price) : 0;
             var qty = state.quantity || 1;
             var subtotal = p.price * qty;
-            var totalSavings = savings * qty;
-            var shipping = subtotal >= 5000 ? 0 : 350; // Free over 5,000 DA, else 350 DA
+            var savings = p.originalPrice ? (p.originalPrice - p.price) * qty : 0;
+            var shipping = subtotal >= 5000 ? 0 : 350;
             var total = subtotal + shipping;
+            var d = state.checkoutData || {};
 
             card.innerHTML =
                 '<div class="order-summary-header">' +
-                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>' +
                     '<h3>' + escapeHTML(t('os_title')) + '</h3>' +
                 '</div>' +
+
+                /* Order item summary */
                 '<div class="order-item">' +
                     '<div class="order-item-img"><img src="' + p.images[0] + '" alt="' + escapeHTML(p.name) + '"></div>' +
                     '<div class="order-item-info">' +
                         '<div class="order-item-name">' + escapeHTML(p.name) + '</div>' +
                         '<div class="order-item-variant">' + escapeHTML(t('os_color')) + ': ' + escapeHTML(p.colors[state.selectedColor || 0].name) + '</div>' +
-                        '<div class="order-item-variant">' + escapeHTML(t('os_size')) + ': ' + escapeHTML(state.selectedSize || '—') + '</div>' +
+                        '<div class="order-item-variant">' + escapeHTML(t('os_size')) + ': ' + escapeHTML(state.selectedSize || t('pd_select_size')) + '</div>' +
                         '<div class="order-item-qty" id="osQtyControl">' +
-                            '<button id="osQtyMinus" aria-label="Decrease"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                            '<button id="osQtyMinus" aria-label="Decrease" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
                             '<span id="osQtyVal">' + qty + '</span>' +
-                            '<button id="osQtyPlus" aria-label="Increase"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                            '<button id="osQtyPlus" aria-label="Increase" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
                         '</div>' +
                     '</div>' +
                     '<div class="order-item-price">' +
@@ -2554,17 +2989,129 @@
                         (p.originalPrice ? '<span class="original">' + formatPrice(p.originalPrice) + '</span>' : '') +
                     '</div>' +
                 '</div>' +
+
+                /* Personal Information section */
+                '<div class="form-section">' +
+                    '<div class="form-section-header">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+                        '<h4>' + escapeHTML(t('of_personal_info')) + '</h4>' +
+                    '</div>' +
+                    '<div class="form-row">' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_full_name')) + ' <span class="req">*</span></label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' +
+                                '<input type="text" class="form-input" id="coName" placeholder="' + escapeHTML(t('of_full_name_ph')) + '" value="' + escapeHTML(d.fullName || '') + '">' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_phone')) + ' <span class="req">*</span></label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' +
+                                '<input type="tel" class="form-input" id="coPhone" placeholder="' + escapeHTML(t('of_phone_ph')) + '" value="' + escapeHTML(d.phone || '') + '">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="form-row single">' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_email')) + '</label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
+                                '<input type="email" class="form-input" id="coEmail" placeholder="' + escapeHTML(t('of_email_ph')) + '" value="' + escapeHTML(d.email || '') + '">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                /* Delivery Address section */
+                '<div class="form-section">' +
+                    '<div class="form-section-header">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+                        '<h4>' + escapeHTML(t('of_delivery')) + '</h4>' +
+                    '</div>' +
+                    '<div class="form-row">' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_wilaya')) + ' <span class="req">*</span></label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
+                                '<select class="form-select" id="coWilaya">' +
+                                    '<option value="">' + escapeHTML(t('of_wilaya_ph')) + '</option>' +
+                                    ALGERIAN_WILAYAS.map(function (w) { return '<option value="' + escapeHTML(w) + '"' + (d.wilaya === w ? ' selected' : '') + '>' + escapeHTML(w) + '</option>'; }).join('') +
+                                '</select>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_baladiya')) + ' <span class="req">*</span></label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+                                '<input type="text" class="form-input" id="coBaladiya" placeholder="' + escapeHTML(t('of_baladiya_ph')) + '" value="' + escapeHTML(d.baladiya || '') + '">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="form-row single">' +
+                        '<div class="form-field">' +
+                            '<label>' + escapeHTML(t('of_address')) + ' <span class="req">*</span></label>' +
+                            '<div class="form-input-wrap">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+                                '<textarea class="form-textarea" id="coAddress" placeholder="' + escapeHTML(t('of_address_ph')) + '">' + escapeHTML(d.address || '') + '</textarea>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                /* Payment Method section */
+                '<div class="form-section">' +
+                    '<div class="form-section-header">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
+                        '<h4>' + escapeHTML(t('of_payment')) + '</h4>' +
+                    '</div>' +
+                    '<div class="payment-options">' +
+                        '<div class="payment-option' + (d.payment === 'cod' ? ' selected' : '') + '" data-payment="cod">' +
+                            '<div class="payment-option-radio"></div>' +
+                            '<div class="payment-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>' +
+                            '<div class="payment-option-title">' + escapeHTML(t('of_cod')) + '</div>' +
+                            '<div class="payment-option-sub">' + escapeHTML(t('of_cod_sub')) + '</div>' +
+                        '</div>' +
+                        '<div class="payment-option' + (d.payment === 'card' ? ' selected' : '') + '" data-payment="card">' +
+                            '<div class="payment-option-radio"></div>' +
+                            '<div class="payment-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>' +
+                            '<div class="payment-option-title">' + escapeHTML(t('of_card')) + '</div>' +
+                            '<div class="payment-option-sub">' + escapeHTML(t('of_card_sub')) + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                /* Additional Notes section */
+                '<div class="form-section">' +
+                    '<div class="form-section-header">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' +
+                        '<h4>' + escapeHTML(t('of_notes')) + '</h4>' +
+                    '</div>' +
+                    '<div class="form-row single">' +
+                        '<div class="form-field">' +
+                            '<div class="form-input-wrap">' +
+                                '<textarea class="form-textarea" id="coNotes" placeholder="' + escapeHTML(t('of_notes_ph')) + '">' + escapeHTML(d.notes || '') + '</textarea>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+
+                /* Order totals */
                 '<div class="order-totals">' +
                     '<div class="order-total-row"><span class="label">' + escapeHTML(t('os_subtotal')) + '</span><span class="value">' + formatPrice(subtotal) + '</span></div>' +
                     '<div class="order-total-row"><span class="label">' + escapeHTML(t('os_shipping')) + '</span><span class="value">' + (shipping === 0 ? escapeHTML(t('os_free')) : formatPrice(shipping)) + '</span></div>' +
-                    (totalSavings > 0 ? '<div class="order-total-row discount"><span class="label">' + escapeHTML(t('os_discount')) + '</span><span class="value">-' + formatPrice(totalSavings) + '</span></div>' : '') +
+                    (savings > 0 ? '<div class="order-total-row discount"><span class="label">' + escapeHTML(t('os_discount')) + '</span><span class="value">-' + formatPrice(savings) + '</span></div>' : '') +
                     '<div class="order-total-row grand"><span class="label">' + escapeHTML(t('os_total')) + '</span><span class="value">' + formatPrice(total) + '</span></div>' +
                 '</div>' +
-                '<button class="btn-checkout" id="osCheckoutBtn">' +
+
+                /* Submit button */
+                '<button class="btn-submit-order" id="osSubmitBtn" type="button">' +
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
-                    escapeHTML(t('os_checkout')) +
+                    escapeHTML(t('of_submit')) +
                 '</button>' +
                 '<p class="order-terms">' + escapeHTML(t('os_terms')) + '</p>' +
+
+                /* Trust badge */
                 '<div class="order-trust">' +
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>' +
                     '<div class="order-trust-text">' +
@@ -2573,16 +3120,30 @@
                     '</div>' +
                 '</div>';
 
-            // Bind qty controls in order summary (sync with main product page qty)
+            bindOrderFormInteractions(p);
+        }
+
+        /* Algerian Wilayas list */
+        var ALGERIAN_WILAYAS = [
+            'Adrar','Chlef','Laghouat','Oum El Bouaghi','Batna','Béjaïa','Biskra','Béchar',
+            'Blida','Bouira','Tamanrasset','Tébessa','Tlemcen','Tiaret','Tizi Ouzou',
+            'Alger','Djelfa','Jijel','Sétif','Saïda','Skikda','Sidi Bel Abbès','Annaba',
+            'Guelma','Constantine','Médéa','Mostaganem','M\'Sila','Mascara','Ouargla',
+            'Oran','El Bayadh','Illizi','Bordj Bou Arréridj','Boumerdès','El Tarf',
+            'Tindouf','Tissemsilt','El Oued','Khenchela','Souk Ahras','Tipaza','Mila',
+            'Aïn Defla','Naâma','Aïn Témouchent','Ghardaïa','Relizane'
+        ];
+
+        function bindOrderFormInteractions(p) {
+            // Qty controls (sync with main product page)
             var osMinus = document.getElementById('osQtyMinus');
             var osPlus = document.getElementById('osQtyPlus');
-            var osQtyVal = document.getElementById('osQtyVal');
             if (osMinus) osMinus.addEventListener('click', function () {
                 if (state.quantity > 1) {
                     state.quantity--;
                     var mainInput = document.getElementById('qtyInput');
                     if (mainInput) mainInput.value = state.quantity;
-                    osQtyVal.textContent = state.quantity;
+                    saveFormFields();
                     renderOrderSummary(p);
                 }
             });
@@ -2591,18 +3152,59 @@
                     state.quantity++;
                     var mainInput = document.getElementById('qtyInput');
                     if (mainInput) mainInput.value = state.quantity;
-                    osQtyVal.textContent = state.quantity;
+                    saveFormFields();
                     renderOrderSummary(p);
                 }
             });
 
-            // Checkout button
-            var checkoutBtn = document.getElementById('osCheckoutBtn');
-            if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
-                if (!state.selectedSize) { showToast(t('toast_select_size')); return; }
-                addToCart(p, state.selectedSize, p.colors[state.selectedColor || 0].name, state.quantity);
-                showToast(t('os_checkout') + ' • ' + t('toast_checkout_soon'));
+            // Payment options
+            var paymentOpts = document.querySelectorAll('.payment-option');
+            paymentOpts.forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    state.checkoutData.payment = opt.dataset.payment;
+                    paymentOpts.forEach(function (o) { o.classList.remove('selected'); });
+                    opt.classList.add('selected');
+                });
             });
+
+            // Submit button
+            var submitBtn = document.getElementById('osSubmitBtn');
+            if (submitBtn) submitBtn.addEventListener('click', function () {
+                saveFormFields();
+                var d = state.checkoutData;
+                if (!d.fullName || !d.phone || !d.wilaya || !d.baladiya || !d.address) {
+                    showToast(t('of_required'));
+                    return;
+                }
+                if (!state.selectedSize) {
+                    showToast(t('toast_select_size'));
+                    return;
+                }
+                // Add to cart and show success
+                addToCart(p, state.selectedSize, p.colors[state.selectedColor || 0].name, state.quantity);
+                showToast(t('of_order_success'));
+                // Reset form
+                state.checkoutData = { fullName: '', phone: '', email: '', wilaya: '', baladiya: '', address: '', payment: 'cod', notes: '' };
+                renderOrderSummary(p);
+            });
+        }
+
+        function saveFormFields() {
+            if (!state.checkoutData) state.checkoutData = {};
+            var name = document.getElementById('coName');
+            var phone = document.getElementById('coPhone');
+            var email = document.getElementById('coEmail');
+            var wilaya = document.getElementById('coWilaya');
+            var baladiya = document.getElementById('coBaladiya');
+            var address = document.getElementById('coAddress');
+            var notes = document.getElementById('coNotes');
+            if (name) state.checkoutData.fullName = name.value;
+            if (phone) state.checkoutData.phone = phone.value;
+            if (email) state.checkoutData.email = email.value;
+            if (wilaya) state.checkoutData.wilaya = wilaya.value;
+            if (baladiya) state.checkoutData.baladiya = baladiya.value;
+            if (address) state.checkoutData.address = address.value;
+            if (notes) state.checkoutData.notes = notes.value;
         }
 
         function bindProductPageInteractions() {
@@ -2668,10 +3270,48 @@
                 showToast(state.wishlist ? t('toast_added_wishlist') : t('toast_removed_wishlist'));
             });
 
-            // Zoom (no-op feedback)
+            // Zoom button — open full-screen image viewer
             document.getElementById('zoomBtn').addEventListener('click', function () {
-                showToast(t('toast_zoom'));
+                openZoomViewer(state.currentImage || 0);
             });
+            // Also click on main image opens zoom
+            var mainImg = document.getElementById('mainImage');
+            if (mainImg) mainImg.addEventListener('click', function () {
+                openZoomViewer(state.currentImage || 0);
+            });
+        }
+
+        /* ===================== IMAGE ZOOM VIEWER ===================== */
+        function openZoomViewer(index) {
+            var p = state.product;
+            if (!p || !p.images || p.images.length === 0) return;
+            var overlay = document.getElementById('zoomOverlay');
+            var img = document.getElementById('zoomImage');
+            var counter = document.getElementById('zoomCounter');
+            if (!overlay || !img) return;
+            img.src = p.images[index];
+            state.zoomIndex = index;
+            if (counter) counter.textContent = (index + 1) + ' / ' + p.images.length;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeZoomViewer() {
+            var overlay = document.getElementById('zoomOverlay');
+            if (!overlay) return;
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function zoomNext() {
+            var p = state.product;
+            if (!p) return;
+            var next = (state.zoomIndex + 1) % p.images.length;
+            openZoomViewer(next);
+        }
+        function zoomPrev() {
+            var p = state.product;
+            if (!p) return;
+            var prev = (state.zoomIndex - 1 + p.images.length) % p.images.length;
+            openZoomViewer(prev);
         }
 
         /* ===================== CATEGORIES PAGE ===================== */
@@ -3012,13 +3652,100 @@
         /* ===================== CART BUTTON ===================== */
         function bindCart() {
             document.getElementById('cartBtn').addEventListener('click', function () {
-                var cart = getCart();
-                if (cart.length === 0) {
-                    showToast(t('toast_cart_empty'));
-                } else {
-                    var total = cart.reduce(function (s, i) { return s + i.qty; }, 0);
-                    showToast(Number(total).toString() + ' ' + escapeHTML(t(total === 1 ? 'cat_item' : 'cat_items')) + ' ' + escapeHTML(t('toast_cart_count')) + ' \u2022 ' + escapeHTML(t('toast_checkout_soon')));
-                }
+                openCart();
+            });
+            var overlay = document.getElementById('cartOverlay');
+            var closeBtn = document.getElementById('cartClose');
+            if (overlay) overlay.addEventListener('click', closeCart);
+            if (closeBtn) closeBtn.addEventListener('click', closeCart);
+        }
+
+        /* ===================== CART DRAWER ===================== */
+        function openCart() {
+            var drawer = document.getElementById('cartDrawer');
+            var overlay = document.getElementById('cartOverlay');
+            if (!drawer || !overlay) return;
+            renderCart();
+            drawer.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeCart() {
+            var drawer = document.getElementById('cartDrawer');
+            var overlay = document.getElementById('cartOverlay');
+            if (drawer) drawer.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function renderCart() {
+            var body = document.getElementById('cartBody');
+            var footer = document.getElementById('cartFooter');
+            if (!body || !footer) return;
+            var cart = getCart();
+            if (cart.length === 0) {
+                body.innerHTML =
+                    '<div class="cart-empty">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
+                        '<h4>' + escapeHTML(t('cart_empty')) + '</h4>' +
+                        '<p>' + escapeHTML(t('cart_empty_desc')) + '</p>' +
+                    '</div>';
+                footer.style.display = 'none';
+                return;
+            }
+            var subtotal = cart.reduce(function (s, i) { return s + (i.price * i.qty); }, 0);
+            var shipping = subtotal >= 5000 ? 0 : 350;
+            var total = subtotal + shipping;
+            body.innerHTML = cart.map(function (item, idx) {
+                return '' +
+                    '<div class="cart-item" data-cart-idx="' + idx + '">' +
+                        '<div class="cart-item-img"><img src="' + item.image + '" alt="' + escapeHTML(item.name) + '"></div>' +
+                        '<div class="cart-item-info">' +
+                            '<div class="cart-item-name">' + escapeHTML(item.name) + '</div>' +
+                            '<div class="cart-item-variant">' + escapeHTML(t('os_color')) + ': ' + escapeHTML(item.color) + ' • ' + escapeHTML(t('os_size')) + ': ' + escapeHTML(item.size) + '</div>' +
+                            '<div class="cart-item-controls">' +
+                                '<div class="cart-item-qty">' +
+                                    '<button data-cart-action="dec" data-idx="' + idx + '" aria-label="Decrease"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                                    '<span>' + item.qty + '</span>' +
+                                    '<button data-cart-action="inc" data-idx="' + idx + '" aria-label="Increase"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>' +
+                                '</div>' +
+                                '<span class="cart-item-price">' + formatPrice(item.price * item.qty) + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<button class="cart-item-remove" data-cart-action="rm" data-idx="' + idx + '" aria-label="' + escapeHTML(t('cart_remove')) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>' +
+                    '</div>';
+            }).join('');
+            footer.style.display = 'block';
+            footer.innerHTML =
+                '<div class="cart-total-row"><span class="label">' + escapeHTML(t('cart_subtotal')) + '</span><span class="value">' + formatPrice(subtotal) + '</span></div>' +
+                '<div class="cart-total-row"><span class="label">' + escapeHTML(t('cart_shipping')) + '</span><span class="value">' + (shipping === 0 ? escapeHTML(t('cart_free')) : formatPrice(shipping)) + '</span></div>' +
+                '<div class="cart-total-row grand"><span class="label">' + escapeHTML(t('cart_total')) + '</span><span class="value">' + formatPrice(total) + '</span></div>' +
+                '<button class="btn-cart-checkout" id="cartCheckoutBtn">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' +
+                    escapeHTML(t('cart_checkout')) +
+                '</button>';
+            // Bind cart item actions
+            body.querySelectorAll('[data-cart-action]').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var idx = parseInt(btn.dataset.idx, 10);
+                    var action = btn.dataset.cartAction;
+                    var cart = getCart();
+                    if (!cart[idx]) return;
+                    if (action === 'inc') cart[idx].qty++;
+                    else if (action === 'dec') { if (cart[idx].qty > 1) cart[idx].qty--; else cart.splice(idx, 1); }
+                    else if (action === 'rm') cart.splice(idx, 1);
+                    setCart(cart);
+                    renderCart();
+                });
+            });
+            var checkoutBtn = document.getElementById('cartCheckoutBtn');
+            if (checkoutBtn) checkoutBtn.addEventListener('click', function () {
+                closeCart();
+                navigate('product', { id: cart[0].id });
+                // Scroll to order card
+                setTimeout(function () {
+                    var card = document.getElementById('orderSummaryCard');
+                    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
             });
         }
 
@@ -3052,9 +3779,8 @@
             bindCart();
             bindTabs();
             bindLanguageToggle();
+            bindZoomViewer();
             // Apply saved language (set html lang/dir, translate static text, re-render)
-            // We call setLanguage BEFORE route() so the first render uses the correct lang.
-            // However, setLanguage calls route() internally, so we just call it once.
             setLanguage(currentLang);
             // Handle browser back/forward
             window.addEventListener('popstate', function () {
@@ -3062,6 +3788,29 @@
             });
             // Init icons
             if (window.lucide) lucide.createIcons();
+        }
+
+        /* ===================== ZOOM VIEWER BINDINGS ===================== */
+        function bindZoomViewer() {
+            var overlay = document.getElementById('zoomOverlay');
+            var closeBtn = document.getElementById('zoomClose');
+            var prevBtn = document.getElementById('zoomPrev');
+            var nextBtn = document.getElementById('zoomNext');
+            if (overlay) {
+                overlay.addEventListener('click', function (e) {
+                    if (e.target === overlay) closeZoomViewer();
+                });
+            }
+            if (closeBtn) closeBtn.addEventListener('click', closeZoomViewer);
+            if (prevBtn) prevBtn.addEventListener('click', function (e) { e.stopPropagation(); zoomPrev(); });
+            if (nextBtn) nextBtn.addEventListener('click', function (e) { e.stopPropagation(); zoomNext(); });
+            // Keyboard navigation
+            document.addEventListener('keydown', function (e) {
+                if (!overlay || !overlay.classList.contains('active')) return;
+                if (e.key === 'Escape') closeZoomViewer();
+                else if (e.key === 'ArrowLeft') zoomPrev();
+                else if (e.key === 'ArrowRight') zoomNext();
+            });
         }
 
         if (document.readyState === 'loading') {
